@@ -1,7 +1,8 @@
 # Movies App
 
 >Aplicación para buscar películas usando la API de The Movie Database.\
-> ***Aplicación no terminada***
+> ***Aplicación no terminada***\
+> Demo: https://tatianallorente.github.io/MoviesApp-React/
 ---
 # Tecnologías usadas
 
