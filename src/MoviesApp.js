@@ -86,7 +86,7 @@ function MoviesApp() {
 
     const urlNew = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${API_KEY}`;
 
-	const urlRating = `https://api.themoviedb.org/3/discover/movie/?certification_country=US&certification=R&sort_by=vote_average.desc&vote_count.gte=18000&api_key=${API_KEY}`;
+	const urlRating = `https://api.themoviedb.org/3/discover/movie?certification_country=US&certification=R&sort_by=vote_average.desc&vote_count.gte=18000&api_key=${API_KEY}`;
 
     return (
     
