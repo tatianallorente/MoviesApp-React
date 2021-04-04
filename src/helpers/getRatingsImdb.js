@@ -1,21 +1,24 @@
-
 export const getRatingsImdb = async(imdb_id) => { 
 
     const url_imdb = `https://www.omdbapi.com/?i=${encodeURI(imdb_id)}&apikey=b7618069`;
 
-    const resp = await fetch(url_imdb);
-    const {Ratings} = await resp.json();
-    
-    //console.log('desde getRatingsImdb')
-    //console.log(Ratings)
+    try {
+        const resp = await fetch(url_imdb);
+        const {Ratings} = await resp.json();
 
-    Ratings.forEach((r) => {
-        if (r.Source === 'Internet Movie Database') {
-            r.Source = 'IMDB'
-        }
-    });
+            Ratings.forEach((r) => {
+                if (r.Source === 'Internet Movie Database') {
+                    r.Source = 'IMDB'
+                }
+            });
 
-    return Ratings;
+        return Ratings;
+
+    } catch (error) {
+        //console.log(error);
+        return [];
+    }
+
 };
     /*
     (3) [{…}, {…}, {…}]

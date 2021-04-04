@@ -22,7 +22,11 @@ const useStyles = makeStyles((theme) => ({
     total: {
         textAlign: 'center',
         marginTop: '10px'
-    }
+    },      
+        h3: {
+          fontSize: '400px'
+        }, 
+    
   }));
 
 
@@ -116,9 +120,9 @@ const MovieGrid = ({busqueda}) => {
         <>
 
         { titulo && 
-            <Typography variant="h3" color="textPrimary" component="h3">
+            <Typography variant="h4" color="textPrimary" component="h3">
                 Resultados para:&nbsp;
-                <Typography variant="h3" color="secondary" component="span">
+                <Typography variant="h4" color="secondary" component="span">
                     {titulo}
                 </Typography>
             </Typography>

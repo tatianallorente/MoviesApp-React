@@ -24,10 +24,11 @@ function MoviesApp() {
 
 	const [filtros, guardarFiltros] = useState({});
 
-	//TODO: guardar en localstorage
-	const [darkState, setDarkState] = useState(true);
+	const existingPreference = localStorage.getItem("moviesThemeMode"); 
+	const initialState = existingPreference === 'light' ? 'light' : 'dark';
+	const [darkState, setDarkState] = useState(initialState);  
 
-	const palletType = darkState ? "dark" : "light";
+	const palletType = darkState === "dark" ? "dark" : "light";
 	const mainPrimaryColor = indigo[500]; //cyan[900]
 	const mainSecondaryColor = darkState ? amber[400] : amber[500];
 	const textSecondaryColor = darkState ? indigo[300] : indigo[800];
@@ -41,10 +42,24 @@ function MoviesApp() {
 			secondary: {
 				main: mainSecondaryColor
 			},
-      text: {
-        secondary: textSecondaryColor
-      }
-		}
+			text: {
+				secondary: textSecondaryColor
+			}
+		},
+		typography: {  
+			h2: {
+			  	fontFamily: 'Merienda'
+			},       
+			h3: {
+			  	fontFamily: 'Merienda'
+			},  
+			h4: {
+				fontFamily: 'Merienda'
+			}, 
+			h6: {
+			  fontFamily: 'Merienda'
+			},
+		},
 	});
 
 
@@ -53,6 +68,15 @@ function MoviesApp() {
 		backgroundImage: 'linear-gradient(60deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1)), linear-gradient(120deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1))',
 		//border: '1px solid rgba(0, 0, 0, 0.1)',
 		boxShadow: '2px 0px 3px 2px rgb(0 0 0 / 10%)'
+		},
+		footer: {
+		  color: '#aaa',
+		  margin: '2rem auto',
+		  textAlign: 'center',
+		  width: '70%',
+		  '& a': {
+			  color: textSecondaryColor
+		  }
 		}
 	}));
 
@@ -60,10 +84,9 @@ function MoviesApp() {
   	const classes = useStyles();
 
 
-    //TODO: Cambiar los parámetros de estas url
     const urlNew = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${API_KEY}`;
 
-    const urlRating = `https://api.themoviedb.org/3/discover/movie/?certification_country=US&sort_by=vote_average.desc&api_key=${API_KEY}`;
+	const urlRating = `https://api.themoviedb.org/3/discover/movie/?certification_country=US&certification=R&sort_by=vote_average.desc&vote_count.gte=18000&api_key=${API_KEY}`;
 
     return (
     
@@ -73,17 +96,18 @@ function MoviesApp() {
             <Menu
               theme={darkState}
               setTheme={setDarkState}
+              existingPreference={existingPreference}
             />
 
             <Container maxWidth="xl">
 				<TopMovies
 				topUrl={urlNew}
-				topTitle='Top 5 mas populares'
+				topTitle='Top más populares'
 				/>
 
 				<TopMovies
 				topUrl={urlRating}
-				topTitle='Top 5 mejor valoradas'
+				topTitle='Top mejor valoradas'
 				/>
           	</Container>
 
@@ -101,6 +125,11 @@ function MoviesApp() {
                 </Container>
                 : null
             }  
+
+			<footer className={classes.footer}>&copy; Designed and developed by&nbsp;
+            	<a href="https://github.com/tatianallorente/MoviesApp-React" target="_blank" rel="noreferrer" >Tatiana Llorente</a>
+            </footer>
+
         </ThemeProvider>
     );
 }
