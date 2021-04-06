@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container';
 
 
 const useStyles = makeStyles((theme) => ({
-    paginacion: {
+    pagination: {
         display: 'flex',
         marginBottom: '20px',
         justifyContent: 'center',
@@ -27,7 +27,7 @@ const PaginationUi = ({totalPages, currentPage, handlePagination}) => {
     const classes = useStyles();
 
     return ( 
-        <Container maxWidth="xl" className={classes.paginacion}>
+        <Container maxWidth="xl" className={classes.pagination}>
             <Pagination 
                 variant="outlined" 
                 shape="rounded" 

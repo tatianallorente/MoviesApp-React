@@ -51,53 +51,6 @@ const useStyles = makeStyles((theme) => ({
         '& > span:last-child': {
             alignSelf: 'center'
         }
-    },
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundSize: 'cover', 
-        backgroundRepeat: 'no-repeat'
-    },
-    paper: {
-        //backgroundColor: theme.palette.background.paper,
-        //border: '2px solid #000',
-        //boxShadow: theme.shadows[5],
-        //padding: theme.spacing(2, 4, 3), // multiplica por 8
-        display: 'flex',
-        color: '#fff',
-        outline: 0,
-        //backgroundColor: 'rgba(0, 0, 0, .5)', 
-        padding: '0px !important',
-    },
-    contenido : {
-        padding: theme.spacing(2, 4)
-    },
-    closeButton: {
-        position: 'absolute', 
-        right: '5px',
-        top: '5px'
-    },
-    generos: {
-        display: 'flex', 
-        listStyle: 'none', 
-        padding: '0',
-        '& > li': {
-            paddingRight: '5px'
-        } 
-    },
-    castContainer: {
-        
-    },
-    cast: {
-        display: 'flex',
-        flexDirection: 'column', 
-        flexGrow: 1, 
-        flexBasis: 0, 
-        marginRight: theme.spacing(3),
-        '&:last-child': {
-            marginRight: 0
-        }
     }
 }));
 

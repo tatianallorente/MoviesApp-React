@@ -6,10 +6,10 @@ import { useForm } from '../hooks/useForm';
 import { useFetch } from '../hooks/useFetch';
 import { API_KEY } from '../helpers/constants';
 import { getPerson } from './services/getPerson';
-import {numeros, years, sortBy} from './utils/utils';
+import {ratingNumbers, years, sortBy} from './utils/utils';
 
 
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 //import Select from '@material-ui/core/Select';
@@ -31,66 +31,37 @@ import Typography from '@material-ui/core/Typography';
 
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    //minWidth: 120,
-    flexGrow: 1
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+    formControl: {
+        margin: theme.spacing(1),
+        flexGrow: 1
     },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
+    searchForm: {
+        padding: '25px 0'
     },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  formulario: {
-    padding: '25px 0'
-  },
-  buscarFiltros: {
-    display: 'flex', 
-    justifyContent: 'space-between', 
-    alignItems: 'center'
-  }
+    searchByFilters: {
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center'
+    }
 }));
 
 
-
-const Search = ({guardarFiltros}) => {
+const Search = ({setFilters}) => {
 
     //const [error, guardarError] = useState(false);
 
     // Formulario de filtros
     const [ formFiltersValues, handleFiltersChange ] = useForm( {
-        titulo: '',
+        title: '',
         genero: '',
         puntuacion: '',
         year: '',
         with_cast: '',
-        orden: 'popularity.desc'
+        orderBy: 'popularity.desc'
     } );
   
     
-    const { titulo, genero, puntuacion, year, with_cast, orden } = formFiltersValues;
+    const { title, genero, puntuacion, year, with_cast, orderBy } = formFiltersValues;
 
     // Get genres to fill select
     // Con el hook useFetch
@@ -100,7 +71,7 @@ const Search = ({guardarFiltros}) => {
  
 
     // OnSubmit
-    const buscarPeliculas = e => {
+    const searchMovies = e => {
         e.preventDefault();
         /*console.log('formFiltersValues');
         console.log(formFiltersValues);*/
@@ -118,7 +89,7 @@ const Search = ({guardarFiltros}) => {
         }
 
         // esta función sería la que hace la llamada a la api
-        guardarFiltros({
+        setFilters({
             ...formFiltersValues,
             with_cast: with_castId
         });
@@ -128,17 +99,17 @@ const Search = ({guardarFiltros}) => {
     // Autocompletado
     const handleKeyUp = (e) => {
         //console.log(e);
-        const buscar_people = e.target.value;
-        // Cuando haya mas de 3 letras, autocompletar
-        if (buscar_people.length > 2) {
+        const searchCast = e.target.value;
+        // Cuando haya más de 3 letras, autocompletar
+        if (searchCast.length > 2) {
             
-            // Llenar autocompletado aquí con people
+            // Llenar autocompletado aquí con searchCast
             // tengo un datalist con id: autocomplete-cast
             let autocomplete_cast = document.getElementById("autocomplete-cast");
             autocomplete_cast.innerHTML = '';
 
             // llamar api get actores
-            getPerson(buscar_people)
+            getPerson(searchCast)
                 .then((people) => {
                    people.map(cast => (
                         autocomplete_cast.innerHTML += `<option data-value=${cast.id}>
@@ -147,7 +118,7 @@ const Search = ({guardarFiltros}) => {
                     ))
                 });
   
-            // OJO, a veces vienen duplicados
+            // Nota: a veces vienen duplicados
             //(5) ["Emma Stone", "Emma Stone", "Emma Stone", "Emma Stone", "Emma Stoneberg"]
         } 
     };
@@ -158,14 +129,14 @@ const Search = ({guardarFiltros}) => {
    
     return (
         <Container maxWidth="md">
-        <form onSubmit={buscarPeliculas} className={classes.formulario}>
+        <form onSubmit={searchMovies} className={classes.searchForm}>
            <Typography variant="h6" color="textSecondary" component="h6">
            Buscar por título
             </Typography>
             <Box marginBottom={'20px'}>
                 <TextField 
                     id="standard-basic"
-                    name="titulo" 
+                    name="title" 
                     label="Buscar por titulo"
                     color="secondary"
                     onChange={handleFiltersChange}
@@ -183,7 +154,7 @@ const Search = ({guardarFiltros}) => {
             <Typography variant="h6" color="textSecondary" component="h6">
                 Buscar por filtros
             </Typography>
-                <Box className={classes.buscarFiltros}>
+                <Box className={classes.searchByFilters}>
                     <FormControl className={classes.formControl}>
                         <InputLabel shrink htmlFor="genre-native-label-placeholder" color="secondary">
                             Género
@@ -222,7 +193,7 @@ const Search = ({guardarFiltros}) => {
                             }}
                         >
                             <option value="">-Cualquiera-</option>
-                            {numeros.map(num => (
+                            {ratingNumbers.map(num => (
                                 <option 
                                     key={num} 
                                     value={num} 
@@ -260,16 +231,16 @@ const Search = ({guardarFiltros}) => {
 
 
                     <FormControl className={classes.formControl}>
-                        <InputLabel shrink htmlFor="orden-native-label-placeholder" color="secondary">
+                        <InputLabel shrink htmlFor="orderBy-native-label-placeholder" color="secondary">
                             Orden
                         </InputLabel>
                         <NativeSelect
-                            value={orden}
+                            value={orderBy}
                             onChange={handleFiltersChange}
                             color="secondary"
                             inputProps={{
-                                name: 'orden',
-                                id: 'orden-native-label-placeholder',
+                                name: 'orderBy',
+                                id: 'orderBy-native-label-placeholder',
                             }}
                         >
                             {sortBy.map(sort => (
@@ -304,7 +275,7 @@ const Search = ({guardarFiltros}) => {
                     <Button 
                         variant="contained" 
                         color="secondary"
-                        onClick={buscarPeliculas}
+                        onClick={searchMovies}
                     >
                         Buscar
                     </Button>
@@ -320,7 +291,7 @@ const Search = ({guardarFiltros}) => {
 }
 
 Search.propTypes = {
-    guardarFiltros: PropTypes.func.isRequired
+    setFilters: PropTypes.func.isRequired
 }
 
 export default Search;

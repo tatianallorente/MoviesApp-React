@@ -2,18 +2,18 @@ import { API_KEY } from "../../helpers/constants";
 
 export const getSearchResults = async(busqueda, currentPage) => {
 
-    const { titulo, genero, puntuacion, year, with_cast, orden } = busqueda;
+    const { title, genero, puntuacion, year, with_cast, orderBy } = busqueda;
      
     let url = '';
-    if (titulo.trim() !== '') {
-        url = `https://api.themoviedb.org/3/search/movie?query=${titulo}&api_key=${API_KEY}&page=${currentPage}`;
+    if (title.trim() !== '') {
+        url = `https://api.themoviedb.org/3/search/movie?query=${title}&api_key=${API_KEY}&page=${currentPage}`;
     } else {
         const parameters = [
             {paramName: 'with_genres', paramValue: genero},
             {paramName: 'with_cast', paramValue: with_cast},
             {paramName: 'vote_average.gte', paramValue: puntuacion},
             {paramName: 'primary_release_year', paramValue: year},
-            {paramName: 'sort_by', paramValue: orden},
+            {paramName: 'sort_by', paramValue: orderBy},
         ];        
         
         url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&page=${currentPage}`;
@@ -31,12 +31,12 @@ export const getSearchResults = async(busqueda, currentPage) => {
             url += `&${queryParams}`;                               
         }
 
-        console.log({url});
+        //console.log({url});
         
     }
     
     const resp = await fetch(url);
     const data = await resp.json();
-    
+
     return data;
 }
