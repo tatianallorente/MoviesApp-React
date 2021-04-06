@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const PaginationUi = ({totalpaginas, paginaactual, handlePagination}) => {
+const PaginationUi = ({totalPages, currentPage, handlePagination}) => {
 
     const classes = useStyles();
 
@@ -33,15 +33,15 @@ const PaginationUi = ({totalpaginas, paginaactual, handlePagination}) => {
                 shape="rounded" 
                 siblingCount={2} 
                 boundaryCount={2} 
-                count={totalpaginas} 
-                page={paginaactual} 
+                count={totalPages} 
+                page={currentPage} 
                 onChange={handlePagination}
             />
             <Typography 
                 variant="body2" 
                 color="textPrimary" 
                 component="span">
-                    {`${paginaactual} de ${totalpaginas}`}
+                    {`${currentPage} de ${totalPages}`}
             </Typography>
         </Container>
      );

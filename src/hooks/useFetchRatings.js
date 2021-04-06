@@ -1,7 +1,5 @@
-
-
 import {useState, useEffect} from 'react';
-import { getRatingsImdb } from '../helpers/getRatingsImdb';
+import { getRatingsImdb } from '../components/services/getRatingsImdb';
 
 
 export const useFetchRatings = (imdb_id) => {

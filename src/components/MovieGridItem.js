@@ -9,33 +9,11 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Box from '@material-ui/core/Box';
-/*
-import StarIcon from '@material-ui/icons/Star';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Chip from '@material-ui/core/Chip';
-import Container from '@material-ui/core/Container';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import Paper from '@material-ui/core/Paper';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import { findByLabelText } from '@testing-library/react';
-import clsx from 'clsx';
-*/
 
 import no_img from '../img/no_img.png';
-import { API_KEY } from '../helpers/constants';
-
 import { MovieModal } from './ui/MovieModal';
-import { useFetch } from '../hooks/useFetch';
-//import { useFetchRatings } from '../hooks/useFetchRatings';
-
-
+import { getDetailedMovie } from './services/getDetailedMovie';
+import { getCastMovie } from './services/getCastMovie';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -126,14 +104,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 const MovieGridItem = (movie) => {
-    /*const [movieDetails, setDetailedMovie] = useState({
-        movie: [],
-        loading: true
-    });*/
+    const [movieDetails, setDetailedMovie] = useState([]);
+    const [movieCast, setCastMovie] = useState([]);
 
-    //const [loading, setLoading] = useState([]); 
-   // const [movieDetails, setDetailedMovie] = useState({});
-   // const [movieCast, setCastMovie] = useState({});
     const [open, setOpen] = useState(false);
 
     const {id, title, original_title, original_language, poster_path, vote_average} = movie;
@@ -144,6 +117,17 @@ const MovieGridItem = (movie) => {
     const classes = useStyles();
 
 
+    useEffect(() => {  
+        getDetailedMovie(id)
+            .then(movie => setDetailedMovie(movie))
+    }, [id]);
+
+    useEffect(() => {  
+        getCastMovie(id)
+            .then(cast => setCastMovie(cast))
+    }, [id]);
+
+
     const handleOpen = () => {
       setOpen(true);
     };
@@ -151,28 +135,6 @@ const MovieGridItem = (movie) => {
     const handleClose = () => {
       setOpen(false);
     };
-
-
-    const [movieDetails, setDetailedMovie] = useState([]);
-    const [movieCast, setCastMovie] = useState([]);
-
-
-    useEffect(() => {  
-        let url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`;
-        let url_actores = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`;
-        
-        const consultarApi = async () => {
-            const resp = await fetch(url);
-            const jsonMovie = await resp.json();
-            setDetailedMovie(jsonMovie);
-            
-            const response = await fetch(url_actores);
-            const jsonCast = await response.json();
-            const cast = jsonCast.cast.filter((result) => result.profile_path );
-            setCastMovie(cast);
-        }
-        consultarApi();
-    }, []);
 
 
     return (

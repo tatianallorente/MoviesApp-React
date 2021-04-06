@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from "prop-types";
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -12,20 +13,20 @@ import FormGroup from '@material-ui/core/FormGroup';
 import tmdb_logo from '../../img/tmdb_logo_blue_square_2.svg';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-    textAlign: 'center',
-    fontSize: '2.5rem'
-  },
-  logo: {
-    maxWidth: '5rem',
-  }
+	root: {
+		flexGrow: 1,
+	},
+	menuButton: {
+		marginRight: theme.spacing(2),
+	},
+	title: {
+		flexGrow: 1,
+		textAlign: 'center',
+		fontSize: '2.5rem'
+	},
+	logo: {
+		maxWidth: '5rem',
+	}
 }));
 
 
@@ -36,15 +37,15 @@ const Menu = ({theme, setTheme, existingPreference}) => {
     const [switchState, setSwitchState] = useState(existingPreference === 'light' ? false : true);
 
     const handleThemeChange = () => {
-      if (theme === "dark") {
-        setSwitchState(false);
-        setTheme("light");
-        localStorage.setItem("moviesThemeMode", "light");
-      } else {
-        setSwitchState(true);
-        setTheme("dark");
-        localStorage.setItem("moviesThemeMode", "dark");
-      }
+		if (theme === "dark") {
+			setSwitchState(false);
+			setTheme("light");
+			localStorage.setItem("moviesThemeMode", "light");
+		} else {
+			setSwitchState(true);
+			setTheme("dark");
+			localStorage.setItem("moviesThemeMode", "dark");
+		}
     };
 
     return (
@@ -57,7 +58,7 @@ const Menu = ({theme, setTheme, existingPreference}) => {
             <FormGroup>
                 <FormControlLabel
                     control={
-                      <Switch checked={switchState} onChange={handleThemeChange} aria-label="theme" />
+                      	<Switch checked={switchState} onChange={handleThemeChange} aria-label="theme" />
                     }
                     label={switchState ? 'Dark mode' : 'Light mode'}
                 />
@@ -67,4 +68,10 @@ const Menu = ({theme, setTheme, existingPreference}) => {
     )
 }
 
-export default Menu
+Menu.propTypes = {
+	theme: PropTypes.string,
+  	setTheme: PropTypes.func,
+  	existingPreference: PropTypes.string
+}
+
+export default Menu;

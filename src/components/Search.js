@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import Error from './ui/Error';
+//import Error from './ui/Error';
 import { useForm } from '../hooks/useForm';
 import { useFetch } from '../hooks/useFetch';
 import { API_KEY } from '../helpers/constants';
-import { getPerson } from '../helpers/getPerson';
+import { getPerson } from './services/getPerson';
 import {numeros, years, sortBy} from './utils/utils';
 
 
@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Search = ({guardarFiltros}) => {
 
-    const [error, guardarError] = useState(false);
+    //const [error, guardarError] = useState(false);
 
     // Formulario de filtros
     const [ formFiltersValues, handleFiltersChange ] = useForm( {
@@ -313,7 +313,7 @@ const Search = ({guardarFiltros}) => {
 
 
 
-            {error ? <Error mensaje="Debe haber al menos un campo de búsqueda"/> : null}
+            {/*error ? <Error mensaje="Debe haber al menos un campo de búsqueda"/> : null*/}
         </form>
         </Container>
     )

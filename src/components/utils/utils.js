@@ -1,4 +1,3 @@
-
 // Array de años
 export const years = () => {  
     let yearCurrent = new Date().getFullYear(); 
@@ -9,9 +8,8 @@ export const years = () => {
         .map(() => yearCurrent--);
 }
 
-// Array de puntuacion
+// Array de puntuación
 export const numeros = [1,2,3,4,5,6,7,8,9];
-
 
 // Default: popularity.desc
 export const sortBy =  

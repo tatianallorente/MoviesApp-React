@@ -1,38 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { API_KEY } from '../helpers/constants';
-//import { useFetch } from '../hooks/useFetch';
-import PaginationUi from './ui/PaginationUi';
-import MovieGridItem from './MovieGridItem';
-
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-//import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
 import { LinearProgress } from '@material-ui/core';
 
+import PaginationUi from './ui/PaginationUi';
+import MovieGridItem from './MovieGridItem';
+import { getSearchResults } from './services/getSearchResults';
+
 
 const useStyles = makeStyles((theme) => ({
-    cargando: {
-        textAlign: 'center',
-        border: '1px solid red'
-    },
     total: {
         textAlign: 'center',
         marginTop: '10px'
-    },      
-        h3: {
-          fontSize: '400px'
-        }, 
-    
+    }
   }));
 
 
 const MovieGrid = ({busqueda}) => {
 
-    const { titulo, genero, puntuacion, year, with_cast, orden } = busqueda;
+    const { titulo } = busqueda;
 
     // state de la app
     const [movies, setMovies] = useState({
@@ -41,78 +31,39 @@ const MovieGrid = ({busqueda}) => {
     });
 
     // Paginacion
-    const [paginaactual, guardarPaginaActual] = useState(1);
-    const [totalpaginas, guardarTotalPaginas] = useState(1);
-    const [totalresultados, guardarTotalResultados] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalResults, setTotalResults] = useState(1);
 
 
     useEffect(() => {
-        const consultarApi = async () => {
-           
-            let url = '';
-            if (titulo.trim() !== '') {
-                url = `https://api.themoviedb.org/3/search/movie?query=${titulo}&api_key=${API_KEY}&page=${paginaactual}`;
-            } else {
-                const parameters = [
-                    {paramName: 'with_genres', paramValue: genero},
-                    {paramName: 'with_cast', paramValue: with_cast},
-                    {paramName: 'vote_average.gte', paramValue: puntuacion},
-                    {paramName: 'primary_release_year', paramValue: year},
-                    {paramName: 'sort_by', paramValue: orden},
-                ];        
+        getSearchResults(busqueda, currentPage)
+            .then(data => {
+                const { results, total_pages, total_results } = data;
+
+                setMovies({
+                    movies: results,
+                    loading: false
+                });  
                 
-                url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&page=${paginaactual}`;
-                
-                // TODO: poner un minimo de vote_count para buscar por puntuacion
+                // Guardar el total de paginas
+                setTotalPages(total_pages);
 
-                const queryParams = parameters.filter( param => 
-                    param.paramValue !== '' 
-                ).map( param => 
-                    param.paramName + '=' + param.paramValue
-                ).join("&");
-                // console.log({queryParams}); // son los que no estan vacios
-            
-                if ( queryParams !== '') {
-                    url += `&${queryParams}`;                               
-                }
-    
-                console.log({url});
-                
-            }
-            
+                // Guardar el total de resultados
+                setTotalResults(total_results);
 
-            // TODO: encodeURI(url)  
-            const resp = await fetch(url);
-            const data = await resp.json();
-            //console.log({busqueda});
-            //console.log({data});
-     
-            setMovies({
-                movies: data.results,
-                loading: false
-            });  
-             
+                // TODO: hacer scroll al principio de la búsqueda al cambiar de página
 
-            // Guardar el total de paginas
-            guardarTotalPaginas(data.total_pages);
+            });
 
-            // Guardar el total de resultados
-            guardarTotalResultados(data.total_results);
-
-            // TODO: hacer scroll al principio de la búsqueda al cambiar de página
-
-        }
-        consultarApi();
-    }, [busqueda, paginaactual]);
-
+    }, [busqueda, currentPage]);
 
     // Paginacion
     const handlePagination = (e, value) => {
-        guardarPaginaActual(value);
+        setCurrentPage(value);
     };
 
     
-
     const classes = useStyles();
 
 
@@ -136,13 +87,13 @@ const MovieGrid = ({busqueda}) => {
             <>
                 <Container maxWidth="xl" className={classes.total}>
                     <Typography variant="h6" color="primary" component="h6">
-                        {totalresultados} películas encontradas
+                        {totalResults} películas encontradas
                     </Typography>
                 </Container>
 
                 <PaginationUi
-                    totalpaginas={totalpaginas}
-                    paginaactual={paginaactual}
+                    totalPages={totalPages}
+                    currentPage={currentPage}
                     handlePagination={handlePagination}
                 />
 
@@ -160,8 +111,8 @@ const MovieGrid = ({busqueda}) => {
                 </Grid>
                 
                 <PaginationUi
-                    totalpaginas={totalpaginas}
-                    paginaactual={paginaactual}
+                    totalPages={totalPages}
+                    currentPage={currentPage}
                     handlePagination={handlePagination}
                 />
             </>
