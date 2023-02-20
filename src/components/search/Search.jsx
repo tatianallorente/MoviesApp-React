@@ -100,7 +100,7 @@ const Search = () => {
                   }}
                 />
                 
-                <Button variant="contained" color="secondary" onClick={searchMovies}>
+                <Button variant="contained" color="secondary" onClick={searchMovies} disableElevation>
                   Buscar
                 </Button>
               </>

@@ -177,7 +177,7 @@ const AdvancedSearch = ({formFiltersValues, handleFiltersChange}) => {
         <datalist id="autocomplete-cast"></datalist>
       </FormControl>
 
-      <Button variant="contained" color="secondary" onClick={searchMovies}>
+      <Button variant="contained" color="secondary" onClick={searchMovies} disableElevation>
         Buscar
       </Button>
     </>

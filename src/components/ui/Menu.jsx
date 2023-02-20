@@ -1,7 +1,9 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-import { AppBar, FormControlLabel, FormGroup, Switch, Toolbar, Typography, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Box, Button } from '@mui/material';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 import tmdb_logo from '../../assets/img/blue_long_1-themoviedatabase.svg';
 
@@ -27,14 +29,21 @@ export const Menu = ({themeMode, setTheme}) => {
 			<Toolbar sx={{justifyContent: 'space-between'}}>
 				<Typography component="h1" variant="h4">Movies App</Typography>
 					<Box component="img" src={tmdb_logo} alt={tmdb_logo} sx={{maxHeight: '3rem'}} ml={2} mr={2} />
-				<FormGroup>
-					<FormControlLabel
-						control={
-							<Switch checked={switchState} onChange={handleThemeChange} aria-label="theme mode" color="secondary" />
-						}
-						label={switchState ? 'Dark mode' : 'Light mode'}
-					/>
-				</FormGroup>
+					<Button
+						variant="outlined"
+						color="secondary"
+						startIcon={switchState ? <DarkModeIcon color="secondary"/> : <LightModeIcon color="secondary"/>}
+						onClick={handleThemeChange}
+						sx={{
+							border: 'none',
+							textTransform: 'capitalize',
+							':hover': {
+								border: 'none',
+							}
+						}}
+					>
+						{switchState ? 'Dark mode' : 'Light mode'}
+					</Button>
 			</Toolbar>
 		</AppBar>
 	)
