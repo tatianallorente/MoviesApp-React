@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 
-import { Box, Container, TextField, InputAdornment, Tabs, Tab, Button, IconButton } from '@mui/material';
+import { Box, Container, TextField, InputAdornment, Tabs, Tab, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 
@@ -109,11 +109,10 @@ const Search = () => {
                 handleFiltersChange={handleFiltersChange}
               />
           }
-          {/* // FIXME: Limpiar busqueda */}
-          <IconButton aria-label="limpiar búsqueda" title="Limpiar búsqueda" sx={{marginLeft: 1}} onClick={resetFormAndCleanSearch}>
-            <SearchOffIcon color="primary" />
-          </IconButton>
         </Box>
+        <Button variant="outlined" fullWidth size="small" startIcon={<SearchOffIcon />} onClick={resetFormAndCleanSearch}>
+          Limpiar búsqueda
+        </Button>
       </Box>
     </Container>
   )

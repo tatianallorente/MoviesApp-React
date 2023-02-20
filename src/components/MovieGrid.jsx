@@ -54,13 +54,16 @@ const MovieGrid = () => {
 
 	return (
 		<>
-			{titleForm && 
-				<Typography variant="h4" color="textPrimary" component="h4" gutterBottom>
-					Resultados para:&nbsp;
-					<Typography variant="h4" color="secondary" component="span" gutterBottom>
-						{titleForm}
+			{titleForm 
+				? <Typography variant="h4" color="textPrimary" component="h4" gutterBottom>
+						Resultados para:&nbsp;
+						<Typography variant="h4" color="secondary" component="span" gutterBottom>
+							{titleForm}
+						</Typography>
 					</Typography>
-				</Typography>
+				: <Typography variant="h4" color="textPrimary" component="h4" gutterBottom>
+						Resultados de la búsqueda:
+					</Typography>
 			}
 
 			{loading &&
