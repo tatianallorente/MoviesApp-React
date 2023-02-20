@@ -21,28 +21,20 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 
 	const styles = {
     dialog: {
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
+			//display: 'flex',
+			//alignItems: 'center',
+			//justifyContent: 'center',
 			backgroundSize: 'cover', 
 			backgroundPosition: 'center',
 			backgroundRepeat: 'no-repeat'
     },
 		dialogContent: {
 			display: 'flex',
-			color: '#fff',
-			outline: 0,
+			flexDirection: 'column',
+			//color: '#fff',
+			//outline: 0,
 			padding: '0px !important',
     },
-    loading: {
-			height: '100%',
-			width: '100vw',    
-			backgroundColor: 'rgba(0, 0, 0, .6)',
-			position: 'fixed',
-			left: 0,
-			top: 0,
-			zIndex: 9999
-    }
 	};
 
 	const [loading, setLoading] = useState(true);
@@ -107,54 +99,55 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 						},
 					}}
 				>
-					<DialogContent sx={styles.dialogContent}>        
-						{!matches &&
-							<img src={poster_path ? img_url : no_img} alt={title} style={{maxWidth: '50%'}} />
-						}
-						<Box sx={{padding: theme => theme.spacing(2, 4)}}>
-							<IconButton aria-label="close" onClick={handleClose} sx={{position: 'absolute', right: '5px', top: '5px'}}>
-								<CloseIcon sx={{fontSize: 30, color: '#ffffff'}}/>
-							</IconButton>
-							<Typography variant="h3" color="secondary" component="h2" gutterBottom sx={{fontSize: matches ? '2rem' : '2.8rem'}}>
-								{original_language === 'es' ? original_title : title}
-							</Typography>
-							{tagline &&
-								<Typography variant="h5" component="h3" sx={{color: 'greenyellow', fontStyle: 'italic'}}>{tagline}</Typography>
+					<DialogContent sx={styles.dialogContent}>
+						<Box sx={{display: 'flex'}}>      
+							{!matches &&
+								<img src={poster_path ? img_url : no_img} alt={title} style={{maxWidth: '50%', height: '100%'}} />
 							}
-							<Typography variant="body1" component="p">{overview}</Typography>
-							{Object.keys(movieDetails)?.length > 0 &&
-								<>
-									<div style={{display:'flex', justifyContent: 'space-evenly', alignItems: 'center', marginTop: '1rem'}}>
-										<div>
-												<Typography variant="body1" component="p">Fecha de estreno:</Typography>
-												<Typography variant="h6" component="h3" color="secondary"> {release_date}</Typography>
-										</div>
-										{runtime &&
+							<Box sx={{padding: theme => theme.spacing(4, 2, 2, 4)}}>
+								<IconButton aria-label="close" onClick={handleClose} sx={{position: 'absolute', right: 0, top: 0}}>
+									<CloseIcon sx={{fontSize: 30, color: '#ffffff'}}/>
+								</IconButton>
+								<Typography variant="h3" color="secondary" component="h2" gutterBottom sx={{fontSize: matches ? '2rem' : '2.8rem'}}>
+									{original_language === 'es' ? original_title : title}
+								</Typography>
+								{tagline &&
+									<Typography variant="h5" component="h3" sx={{color: 'greenyellow', fontStyle: 'italic'}}>{tagline}</Typography>
+								}
+								<Typography variant="body1" component="p">{overview}</Typography>
+								{Object.keys(movieDetails)?.length > 0 &&
+									<>
+										<div style={{display:'flex', justifyContent: 'space-evenly', alignItems: 'center', marginTop: '1rem'}}>
 											<div>
-												<Typography variant="body1" component="p">Duración:</Typography>
-												<Typography variant="h6" component="h3" color="secondary"> {convertMinsToTime(runtime)}</Typography>
+													<Typography variant="body1" component="p">Fecha de estreno:</Typography>
+													<Typography variant="h6" component="h3" color="secondary"> {release_date}</Typography>
 											</div>
+											{runtime &&
+												<div>
+													<Typography variant="body1" component="p">Duración:</Typography>
+													<Typography variant="h6" component="h3" color="secondary"> {convertMinsToTime(runtime)}</Typography>
+												</div>
+											}
+										</div>
+										{genres && genres?.length > 0 &&
+											<Genres genres={genres} />
 										}
-									</div>
-									{genres && genres?.length > 0 &&
-										<Genres genres={genres} />
-									}
-									<Ratings
-										imdb_id={imdb_id}
-										vote_average={vote_average}
-										vote_count={vote_count}
-									/>
-								</>
-							}
-							{/* 
-							<Typography variant="h6" component="h3" color="secondary">Reviews/criticas:</Typography>
-							*/}
-						</Box>   
+										<Ratings
+											imdb_id={imdb_id}
+											vote_average={vote_average}
+											vote_count={vote_count}
+										/>
+									</>
+								}
+								{/* 
+								<Typography variant="h6" component="h3" color="secondary">Reviews/criticas:</Typography>
+								*/}
+							</Box>  
+						</Box> 
+						{(Object.keys(movieDetails).length > 0 && movieCast.length > 0 && !matches) &&
+							<Cast movieCast={movieCast} handleClose={handleClose} />
+						} 
 					</DialogContent>
-
-					{(Object.keys(movieDetails).length > 0 && movieCast.length > 0 && !matches) &&
-						<Cast movieCast={movieCast} handleClose={handleClose} />
-					}
 				</Dialog>
 			}
 

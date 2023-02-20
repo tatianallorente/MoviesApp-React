@@ -13,6 +13,7 @@ export const Cast = ({movieCast, handleClose}) => {
 			padding: '0', 
 			display: 'flex', 
 			flexWrap: 'wrap',
+      gap: theme => theme.spacing(3),
 			marginTop: '12px',
     },
     cast: {
@@ -20,19 +21,6 @@ export const Cast = ({movieCast, handleClose}) => {
 			flexDirection: 'column',
 			flexGrow: .1,
 			flexBasis: 0,
-			'& div': {
-				padding: '10px 0',
-				wordBreak: 'break-word',
-				'& span:first-of-type': {
-					display: 'block'
-				},
-				'& span:last-child': {
-					color: 'grey'
-				},
-			},
-			'&:last-child': {
-				marginRight: 0
-			}
     },
   };
 
@@ -61,17 +49,26 @@ export const Cast = ({movieCast, handleClose}) => {
       <Container maxWidth="xl" sx={styles.castContainer}>
         {movieCast.slice(0, 10).map((cast) => {
           return (
-            <Box key={cast.id} sx={styles.cast} mr={theme => theme.spacing(3)}>
-              <img 
+            <Box key={cast.id} sx={styles.cast}>
+              <Box component="img" 
                 src={cast.profile_path ? `https://image.tmdb.org/t/p/w185${cast.profile_path}` : no_img}
                 alt={cast.character}
                 onClick={() => searchActor(cast.id)}
-                style={{cursor: 'pointer', maxWidth: '100%'}} 
+                sx={{
+                  cursor: 'pointer',
+                  maxWidth: '100%',
+                  minWidth: '80px',
+                  transition: 'all .2s',
+                  '&:hover': {
+                    transform: 'scale(1.05)'
+                  }
+                }} 
               />
-              <Box>
-                <Box component="span">{cast.character}</Box>
+              <Box sx={{padding: '10px 0', wordBreak: 'break-word'}}>
+                <Box component="span" display="block">{cast.character}</Box>
                 <Box component="span" onClick={() => searchActor(cast.id)}
                   sx={{
+                    color: 'grey',
                     cursor: 'pointer',
                     '&:hover': {
                       textDecoration: 'underline'

@@ -21,7 +21,7 @@ export const Genres = ({genres}) => {
     }
   };
 
-  
+  // TODO: búsqueda por género haciendo click
 	return (
     <Box sx={styles.movieGenres}>
       <Typography variant="h6" component="h3" color="secondary">Géneros:</Typography>
