@@ -5,27 +5,20 @@ import { Box, Button, Card, CardActions, CardContent, CardMedia, Tooltip, Typogr
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 import MovieDetails from '../pages/MovieDetails';
+import { useModal } from '../hooks';
 import no_img from '../assets/img/no_img.png';
 import { URL_IMG_POSTER } from '../helpers/constants';
 
 
 const MovieGridItem = (movie) => {
-	const [open, setOpen] = useState(false);
+  const { open, toggleModal } = useModal();
+
 	const [currentMovie, setCurrentMovie] = useState('');
 
 	const {id, title, original_title, original_language, poster_path, vote_average} = movie;
 
 	const movieTitle = original_language === 'es' ? original_title : title;
 	const img_url = `${URL_IMG_POSTER}${poster_path}`;
-
-
-	const handleOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
 
 
 	return (
@@ -81,7 +74,7 @@ const MovieGridItem = (movie) => {
 						variant="contained"
 						disableElevation
 						onClick={() => {
-							handleOpen();
+							toggleModal();
 							setCurrentMovie(id);
 						}}
 					>
@@ -95,7 +88,7 @@ const MovieGridItem = (movie) => {
 			{open &&  
 				<MovieDetails
 					idMovie={currentMovie}
-					handleClose={handleClose}
+					handleClose={toggleModal}
 					open={open}
 					// ratings={ratings}
 				/>
