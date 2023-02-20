@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     textAlign: 'center',
-    fontSize: '3rem'
+    fontSize: '2.5rem'
   },
   logo: {
     maxWidth: '5rem',
@@ -29,13 +29,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Menu = ({theme, setTheme}) => {
+const Menu = ({theme, setTheme, existingPreference}) => {
 
     const classes = useStyles();
 
-    const handleChange = (event) => {
-		setTheme(event.target.checked);
-	    //TODO: guardar si es menu dark o light en el localstorage
+    const [switchState, setSwitchState] = useState(existingPreference === 'light' ? false : true);
+
+    const handleThemeChange = () => {
+      if (theme === "dark") {
+        setSwitchState(false);
+        setTheme("light");
+        localStorage.setItem("moviesThemeMode", "light");
+      } else {
+        setSwitchState(true);
+        setTheme("dark");
+        localStorage.setItem("moviesThemeMode", "dark");
+      }
     };
 
     return (
@@ -48,9 +57,9 @@ const Menu = ({theme, setTheme}) => {
             <FormGroup>
                 <FormControlLabel
                     control={
-                    <Switch checked={theme} onChange={handleChange} aria-label="login switch" />
+                      <Switch checked={switchState} onChange={handleThemeChange} aria-label="theme" />
                     }
-                    label={theme ? 'Dark mode' : 'Light mode'}
+                    label={switchState ? 'Dark mode' : 'Light mode'}
                 />
             </FormGroup>
             </Toolbar>

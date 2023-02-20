@@ -102,8 +102,8 @@ const Search = ({guardarFiltros}) => {
     // OnSubmit
     const buscarPeliculas = e => {
         e.preventDefault();
-        console.log('formFiltersValues');
-        console.log(formFiltersValues);
+        /*console.log('formFiltersValues');
+        console.log(formFiltersValues);*/
 
         let with_castId = '';
 

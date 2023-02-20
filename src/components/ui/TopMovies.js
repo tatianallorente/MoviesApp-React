@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 
 import no_img from '../../img/no_img.png';
 import { useFetch } from '../../hooks/useFetch';
-
+import { MovieModal } from './MovieModal';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -34,6 +34,12 @@ const useStyles = makeStyles((theme) => ({
         margin: '20px 0 10px 0',
         borderLeft: '5px solid',
         paddingLeft: '7px'
+    },
+    gridList: {
+        cursor: 'pointer',
+        '&:hover': {
+            opacity: .5
+        }
     }
 }));
 
@@ -46,6 +52,21 @@ export const TopMovies = ({topUrl, topTitle}) => {
                         ? data.results.filter((result) =>  result.backdrop_path ) 
                         : [];
 
+    const [open, setOpen] = useState(false);
+
+    const [activeMovie, setActiveMovie] = useState({});
+
+
+    const handleOpen = (movie) => {
+        // TODO: a partir de los genre_ids, obtener el name de los generos y añadirlo a movie
+        setActiveMovie(movie);
+        setOpen(true);
+    };
+    
+    const handleClose = () => {
+        setOpen(false);
+    };
+
 
     const classes = useStyles();
 
@@ -56,21 +77,27 @@ export const TopMovies = ({topUrl, topTitle}) => {
             </Typography>
             <Grid container spacing={0} className={classes.topSlider}> 
                 {(topMovies.length > 0) ?
-                    topMovies.slice(0, 6).map(image => (
-                        <Grid item xs={3} xl={2} key={image.id} >
-                            <GridList className={classes.gridList} cols={1}>
-                            <GridListTile key={image.id} >
-                                <img src={image.backdrop_path ? `https://image.tmdb.org/t/p/w500${image.backdrop_path}` : no_img} alt={image.title} className=""/>
+                    topMovies.slice(0, 6).map(movie => (
+                        <Grid item xs={3} xl={2} key={movie.id} >
+                            <GridList 
+                                className={classes.gridList} 
+                                cols={1}
+                                onClick={() => {
+                                    handleOpen(movie);
+                                }}
+                            >
+                            <GridListTile key={movie.id} >
+                                <img src={movie.backdrop_path ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}` : no_img} alt={movie.title} className=""/>
                                 <GridListTileBar
-                                    title={image.title}
+                                    title={movie.title}
                                     classes={{
                                         root: classes.titleBar,
                                         title: classes.title,
                                     }}
                                     actionIcon={
-                                        <IconButton aria-label={`star ${image.title}`} color="secondary">
+                                        <IconButton aria-label={`star ${movie.title}`} color="secondary">
                                             <StarIcon className={classes.title} color="secondary"/>
-                                            <span className={classes.rating}>{image.vote_average}</span>
+                                            <span className={classes.rating}>{movie.vote_average}</span>
                                         </IconButton>
                                     }
                                 />
@@ -80,6 +107,17 @@ export const TopMovies = ({topUrl, topTitle}) => {
                     ))
                 : null}
             </Grid>
+
+            { open ?  
+                <MovieModal
+                    movieDetails={activeMovie}
+                    movieCast={{}}
+                    handleClose={handleClose}
+                    open={open}
+                   // ratings={ratings}
+                />
+            : null}
+
         </>
     )
     

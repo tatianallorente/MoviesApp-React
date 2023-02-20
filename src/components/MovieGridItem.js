@@ -1,5 +1,4 @@
-//import React, { useEffect, useState } from 'react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -135,7 +134,7 @@ const MovieGridItem = (movie) => {
     //const [loading, setLoading] = useState([]); 
    // const [movieDetails, setDetailedMovie] = useState({});
    // const [movieCast, setCastMovie] = useState({});
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     const {id, title, original_title, original_language, poster_path, vote_average} = movie;
 
@@ -153,53 +152,29 @@ const MovieGridItem = (movie) => {
       setOpen(false);
     };
 
-/*
-    const detalles = async (id) => {
-        //console.log(id)
 
+    const [movieDetails, setDetailedMovie] = useState([]);
+    const [movieCast, setCastMovie] = useState([]);
+
+
+    useEffect(() => {  
         let url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`;
-        console.log({url});
-      // la url final encodeURI(url)  
-
-        const resp = await fetch(url);
-        const data = await resp.json();
-        console.log('detalles');
-        console.log(data)
-        setDetailedMovie(data);
-
-
-        // ACTORES
         let url_actores = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`;
-        console.log({url_actores});
-        // la url final encodeURI(url)  
-
-        const resp2 = await fetch(url_actores);
-        const data2 = await resp2.json();
-        //console.log(data2);
-        //console.log(data2.cast)
-        const resultado = data2.cast;
-        // no mostrar los que no tengan foto
-        const top = resultado.filter((result) => result.profile_path );
-        setCastMovie(top);
-    };
-*/
-
-
-
-    // OJO: estamos dentro de un bucle
-    // Con el hook useFetch
-    let url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`;
-    const {data} = useFetch(url);
-    const movieDetails = data ? data : [];
-
-    let url_actores = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`;
-    const {data:data2} = useFetch(url_actores);
-    const movieCast = data2 
-                        ? data2.cast.filter((result) => result.profile_path ) 
-                        : [];
+        
+        const consultarApi = async () => {
+            const resp = await fetch(url);
+            const jsonMovie = await resp.json();
+            setDetailedMovie(jsonMovie);
+            
+            const response = await fetch(url_actores);
+            const jsonCast = await response.json();
+            const cast = jsonCast.cast.filter((result) => result.profile_path );
+            setCastMovie(cast);
+        }
+        consultarApi();
+    }, []);
 
 
-                            
     return (
         <>
             <Card className={classes.root}>
