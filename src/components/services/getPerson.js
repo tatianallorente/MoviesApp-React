@@ -1,5 +1,4 @@
-import { API_KEY } from './constants';
-
+import { API_KEY } from "../../helpers/constants";
 
 export const getPerson = async(buscar_people) => {
 
