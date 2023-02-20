@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ImageList from '@material-ui/core/ImageList';
+import ImageListItem from '@material-ui/core/ImageListItem';
+import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import IconButton from '@material-ui/core/IconButton';
 //import StarBorderIcon from '@material-ui/icons/StarBorder';
 import StarIcon from '@material-ui/icons/Star';
@@ -67,6 +67,8 @@ export const TopMovies = ({topUrl, topTitle}) => {
         getCastMovie(movie.id)
             .then(cast => setCastMovie(cast));
 
+        // getDetailedMovie y getCastMovie deberian estar dentro de un Promise.all()
+
         setOpen(true);
     };
     
@@ -86,16 +88,16 @@ export const TopMovies = ({topUrl, topTitle}) => {
                 {(topMovies.length > 0) ?
                     topMovies.slice(0, 6).map(movie => (
                         <Grid item xs={3} xl={2} key={movie.id} >
-                            <GridList 
+                            <ImageList 
                                 className={classes.gridList} 
                                 cols={1}
                                 onClick={() => {
                                     handleOpen(movie);
                                 }}
                             >
-                            <GridListTile key={movie.id} >
+                            <ImageListItem key={movie.id} >
                                 <img src={movie.backdrop_path ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}` : no_img} alt={movie.title} className=""/>
-                                <GridListTileBar
+                                <ImageListItemBar
                                     title={movie.title}
                                     classes={{
                                         root: classes.titleBar,
@@ -108,8 +110,8 @@ export const TopMovies = ({topUrl, topTitle}) => {
                                         </IconButton>
                                     }
                                 />
-                            </GridListTile>
-                            </GridList>
+                            </ImageListItem>
+                            </ImageList>
                         </Grid>
                     ))
                 : null}
