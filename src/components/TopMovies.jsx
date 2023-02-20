@@ -4,7 +4,7 @@ import { IconButton, ImageList, ImageListItem, ImageListItemBar, Typography, Box
 import StarIcon from '@mui/icons-material/Star';
 
 import { useFetch, useModal } from "../hooks";
-import MovieDetails from "../pages/MovieDetails";
+import ModalMovieDetails from "./ModalMovieDetails";
 import { URL_IMG_POSTER } from "../helpers/constants";
 
 
@@ -69,7 +69,7 @@ const TopMovies = ({topUrl, topTitle}) => {
 
       
       {open &&  
-        <MovieDetails
+        <ModalMovieDetails
           idMovie={currentMovie}
           handleClose={toggleModal}
           open={open}

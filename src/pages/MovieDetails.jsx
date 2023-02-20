@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from "prop-types";
 
 import { useTheme } from '@mui/material/styles';
 import { Backdrop, Box, CircularProgress, Dialog, DialogContent, IconButton, Typography, useMediaQuery, Zoom, Chip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
+import { useFetch } from '../hooks';
 import no_img from '../assets/img/no_img.png';
-import { URL_IMG_BACKDROP, URL_IMG_POSTER } from '../helpers/constants';
+import { URL_IMG_BACKDROP, URL_IMG_POSTER, URL_REQUIRED_PARAMS } from '../helpers/constants';
 import { convertMinsToTime, dateFormatted } from '../utils/utils';
-import { getDetailedMovie } from '../services';
 import { Cast, Genres, Ratings } from '../components/movieDetails';
 
 
@@ -18,6 +18,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 const MovieDetails = ({ idMovie, handleClose, open }) => {
+
+	const urlDetails = `https://api.themoviedb.org/3/movie/${idMovie}${URL_REQUIRED_PARAMS}`;
+	const urlCast = `https://api.themoviedb.org/3/movie/${idMovie}/credits${URL_REQUIRED_PARAMS}`;
+
+  const { data:movieDetails, loading:loadingMovieDetails } = useFetch(urlDetails);
+  const { data:castResults, loading:loadingCast } = useFetch(urlCast);
+
+	const {title, original_title, original_language, backdrop_path, poster_path, genres,overview, tagline, vote_average, vote_count, release_date, runtime, imdb_id} = movieDetails || {};
+  const movieCast = castResults ? castResults?.cast?.filter((result) =>  result.profile_path) : [];
 
 	const styles = {
     dialog: {
@@ -37,12 +46,6 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
     },
 	};
 
-	const [loading, setLoading] = useState(true);
-	const [movieDetails, setDetailedMovie] = useState([]);
-	const [movieCast, setCastMovie] = useState([]);
-
-	const {title, original_title, original_language, backdrop_path, poster_path, genres,overview, tagline, vote_average, vote_count, release_date, runtime, imdb_id} = movieDetails;
-
 
 	// TODO: Reviews
 	// const url_reviews = `https://api.themoviedb.org/3/movie/${id}/reviews${URL_REQUIRED_PARAMS}`;
@@ -53,16 +56,6 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 	// Imágenes
 	const background_url = `${URL_IMG_BACKDROP}${backdrop_path}`;
 	const img_url = `${URL_IMG_POSTER}${poster_path}`;
-
-
-	useEffect(() => {
-		getDetailedMovie(idMovie)
-			.then(({movie, cast}) => {
-				setDetailedMovie(movie);
-				setCastMovie(cast); 
-				setLoading(false);
-			})
-	}, [idMovie]);
 
 
 	// TODO: trailers de las peliculas
@@ -78,7 +71,7 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 
 	return (
 		<div>
-			{!loading &&
+			{!loadingMovieDetails &&
 				<Dialog onClose={handleClose} aria-labelledby={title} open={open}
 					sx={styles.dialog}
 					style={{
@@ -160,14 +153,14 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 								*/}
 							</Box>  
 						</Box> 
-						{(Object.keys(movieDetails).length > 0 && movieCast.length > 0 && !matches) &&
+						{(Object.keys(movieDetails)?.length > 0 && movieCast?.length > 0 && !loadingCast && !matches) &&
 							<Cast movieCast={movieCast} handleClose={handleClose} />
 						} 
 					</DialogContent>
 				</Dialog>
 			}
 
-			<Backdrop open={loading} sx={{zIndex: 100, backgroundColor: 'rgba(102, 102, 102, 0.7)'}}>
+			<Backdrop open={loadingMovieDetails} sx={{zIndex: 100, backgroundColor: 'rgba(102, 102, 102, 0.7)'}}>
 				<CircularProgress color="secondary" size={60} />
 			</Backdrop>
 		</div>
