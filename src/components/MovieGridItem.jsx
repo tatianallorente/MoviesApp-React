@@ -5,7 +5,6 @@ import { Box, Button, Card, CardActions, CardContent, CardMedia, Tooltip, Typogr
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 import MovieDetails from '../pages/MovieDetails';
-import { getDetailedMovie } from '../services';
 import no_img from '../assets/img/no_img.png';
 import { URL_IMG_POSTER } from '../helpers/constants';
 

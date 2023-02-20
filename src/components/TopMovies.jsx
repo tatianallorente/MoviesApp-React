@@ -6,7 +6,9 @@ const TopMovies = ({topUrl, topTitle}) => {
 
 
   return (
-    <Typography variant="h3" color="secondary" component="h3">{topTitle}</Typography>
+    <Typography variant="h4" color="secondary" component="h3" sx={{borderLeft: '5px solid', paddingLeft: '7px'}} gutterBottom>
+      {topTitle}
+    </Typography>
   )
     
 

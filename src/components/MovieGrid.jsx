@@ -39,10 +39,12 @@ const MovieGrid = () => {
 					totalPages: total_pages,
 					totalResults: total_results
 				});
-				setLoading(false);
 
 				// TODO: hacer scroll al principio de la búsqueda al cambiar de página
 
+			})
+			.finally(() => {
+				setLoading(false);
 			});
 
 	}, [searchFilters, currentPage]);

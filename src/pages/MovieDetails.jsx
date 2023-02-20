@@ -105,7 +105,7 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 								<img src={poster_path ? img_url : no_img} alt={title} style={{maxWidth: '50%', height: '100%'}} />
 							}
 							<Box sx={{padding: theme => theme.spacing(4, 2, 2, 4)}}>
-								<IconButton aria-label="close" onClick={handleClose} sx={{position: 'absolute', right: 0, top: 0}}>
+								<IconButton aria-label="close" onClick={handleClose} sx={{position: 'absolute', right: '5px', top: '5px'}}>
 									<CloseIcon sx={{fontSize: 30, color: '#ffffff'}}/>
 								</IconButton>
 								<Typography variant="h3" color="secondary" component="h2" gutterBottom sx={{fontSize: matches ? '2rem' : '2.8rem'}}>
@@ -119,13 +119,13 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 									<>
 										<div style={{display:'flex', justifyContent: 'space-evenly', alignItems: 'center', marginTop: '1rem'}}>
 											<div>
-													<Typography variant="body1" component="p">Fecha de estreno:</Typography>
-													<Typography variant="h6" component="h3" color="secondary"> {release_date}</Typography>
+													<Typography variant="h6" component="p" sx={{fontSize: '1rem'}}>Fecha de estreno:</Typography>
+													<Typography variant="h6" component="h3" color="primary.light"> {release_date}</Typography>
 											</div>
 											{runtime &&
 												<div>
-													<Typography variant="body1" component="p">Duración:</Typography>
-													<Typography variant="h6" component="h3" color="secondary"> {convertMinsToTime(runtime)}</Typography>
+													<Typography variant="h6" component="p" sx={{fontSize: '1rem'}}>Duración:</Typography>
+													<Typography variant="h6" component="h3" color="primary.light"> {convertMinsToTime(runtime)}</Typography>
 												</div>
 											}
 										</div>

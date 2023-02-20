@@ -1,7 +1,7 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container, Typography, Button } from '@mui/material';
 
 import { SearchFiltersContext } from "../../context/SearchFiltersContext";
 
@@ -26,7 +26,11 @@ export const Cast = ({movieCast, handleClose}) => {
 
 	const { setSearchFilters } = useContext( SearchFiltersContext );
 
+  const [showAllActors, setShowAllActors] = useState(false);
 
+  const renderCast = showAllActors ? movieCast : movieCast.slice(0, 10);
+
+  
   const searchActor = (castId) => {
 		// TODO: hay que rellenar el autocompletado (filtros de la busqueda avanzada)
 		handleClose();
@@ -41,13 +45,14 @@ export const Cast = ({movieCast, handleClose}) => {
 		//handleFiltersChange();
 	}
 
+  const toggleActors = () => setShowAllActors(!showAllActors);
 
-  // TODO: Mostrar más de 10 actores (quitar slice)
+
 	return (
     <Box sx={{color: 'white', padding: '24px'}}>
       <Typography variant="h6" component="h3" color="secondary">Reparto:</Typography>
       <Container maxWidth="xl" sx={styles.castContainer}>
-        {movieCast.slice(0, 10).map((cast) => {
+        {renderCast.map((cast) => {
           return (
             <Box key={cast.id} sx={styles.cast}>
               <Box component="img" 
@@ -81,6 +86,10 @@ export const Cast = ({movieCast, handleClose}) => {
             </Box>
           )
         })}
+        
+        <Button variant="outlined" color="secondary" fullWidth size="small" onClick={() => toggleActors()}>
+          {showAllActors ? 'Ocultar' : 'Ver' } reparto completo
+        </Button>
       </Container>
     </Box>
 	)
