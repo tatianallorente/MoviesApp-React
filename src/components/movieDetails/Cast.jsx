@@ -32,7 +32,7 @@ export const Cast = ({movieCast, handleClose}) => {
 
   
   const searchActor = (castId) => {
-		// TODO: hay que rellenar el autocompletado (filtros de la busqueda avanzada)
+		// TODO: hay que rellenar el autocompletado (filtros de la busqueda avanzada) y mostrar ese tab
 		handleClose();
 		setSearchFilters({
 			titleForm: '',

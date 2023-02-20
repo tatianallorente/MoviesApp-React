@@ -3,19 +3,21 @@ import { useState, useEffect, useRef } from 'react';
 
 export const useFetch = ( url ) => {
     
-	const isMounted = useRef(true);
+	const isMounted = useRef(false);
 	const [state, setState] = useState({ data: null, loading: true, error: null });
 
-	useEffect( () => {
+	useEffect(() => {
+		isMounted.current = true;
+
 		return () => {
 			isMounted.current = false;
 		}
-	}, [])
+	}, []);
 
 
 	useEffect( () => {
 
-		setState({ data: null, loading: true, error: null });
+		// setState({ data: null, loading: true, error: null });
 
 		fetch( url )
 			.then( resp => resp.json() )
@@ -23,9 +25,9 @@ export const useFetch = ( url ) => {
 
 				if ( isMounted.current ) {
 					setState({
+						data,
 						loading: false,
 						error: null,
-						data
 					});
 				}
 
@@ -38,7 +40,7 @@ export const useFetch = ( url ) => {
 				})
 			})
 
-	},[url])
+	},[url]);
 
 	return state;
 }
