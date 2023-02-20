@@ -1,4 +1,4 @@
-import { API_KEY } from "../helpers/constants";
+import { URL_REQUIRED_PARAMS } from "../helpers/constants";
 
 export const getSearchResults = async (search, currentPage) => {
 
@@ -7,7 +7,7 @@ export const getSearchResults = async (search, currentPage) => {
 	let url = '';
 
 	if (titleForm.trim() !== '') {
-		url = `https://api.themoviedb.org/3/search/movie?query=${titleForm}&api_key=${API_KEY}&page=${currentPage}`;
+		url = `https://api.themoviedb.org/3/search/movie${URL_REQUIRED_PARAMS}&page=${currentPage}&query=${titleForm}`;
 	} else {
 		const parameters = [
 			{paramName: 'with_genres', paramValue: genreForm},
@@ -17,7 +17,7 @@ export const getSearchResults = async (search, currentPage) => {
 			{paramName: 'sort_by', paramValue: orderByForm},
 		];        
 		
-		url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&page=${currentPage}`;
+		url = `https://api.themoviedb.org/3/discover/movie${URL_REQUIRED_PARAMS}&page=${currentPage}`;
 		
 		// TODO: poner un mínimo de vote_count para buscar por puntuación
 

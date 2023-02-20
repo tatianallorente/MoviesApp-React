@@ -1,8 +1,8 @@
-import { API_KEY } from "../helpers/constants";
+import { URL_REQUIRED_PARAMS } from "../helpers/constants";
 
 export const getDetailedMovie = async (id) => {
-	const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`;
-	const url_cast = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`;
+	const url = `https://api.themoviedb.org/3/movie/${id}${URL_REQUIRED_PARAMS}`;
+	const url_cast = `https://api.themoviedb.org/3/movie/${id}/credits${URL_REQUIRED_PARAMS}`;
 
 	let movieDefault = {};
 	let castDefault = [];

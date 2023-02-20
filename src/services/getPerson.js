@@ -1,8 +1,8 @@
-import { API_KEY } from "../helpers/constants";
+import { URL_REQUIRED_PARAMS } from "../helpers/constants";
 
 export const getPerson = async (searchCast) => {
 
-    const url = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${searchCast}`;
+    const url = `https://api.themoviedb.org/3/search/person${URL_REQUIRED_PARAMS}&query=${searchCast}`;
 
     try {
       const response = await fetch(url);

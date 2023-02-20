@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from "prop-types";
 
 import { useTheme } from '@mui/material/styles';
-import { Backdrop, Box, CircularProgress, Dialog, DialogContent, IconButton, Typography, useMediaQuery, Zoom } from '@mui/material';
+import { Backdrop, Box, CircularProgress, Dialog, DialogContent, IconButton, Typography, useMediaQuery, Zoom, Chip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 import no_img from '../assets/img/no_img.png';
 import { URL_IMG_BACKDROP, URL_IMG_POSTER } from '../helpers/constants';
-import { convertMinsToTime } from '../utils/utils';
+import { convertMinsToTime, dateFormatted } from '../utils/utils';
 import { getDetailedMovie } from '../services';
 import { Cast, Genres, Ratings } from '../components/movieDetails';
 
@@ -45,7 +45,7 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 
 
 	// TODO: Reviews
-	// const url_reviews = `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${API_KEY}`;
+	// const url_reviews = `https://api.themoviedb.org/3/movie/${id}/reviews${URL_REQUIRED_PARAMS}`;
 
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down(600)); //600px
@@ -66,10 +66,10 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 
 
 	// TODO: trailers de las peliculas
-  // https://api.themoviedb.org/3/movie/315162/videos?api_key=${API_KEY}&language=en-US
+  // https://api.themoviedb.org/3/movie/315162/videos${URL_REQUIRED_PARAMS}
 
   // TODO: Peliculas similares a esta
-  // https://api.themoviedb.org/3/movie/315162/similar?api_key=${API_KEY}&language=en-US&page=1
+  // https://api.themoviedb.org/3/movie/315162/similar${URL_REQUIRED_PARAMS}&page=1
 
   //TODO: Mostrar donde ver pelicula en streaming
   // https://api.themoviedb.org/3/movie/315162/watch/providers?api_key=${API_KEY} (de los results mostrar: ES o selector de pais)
@@ -108,11 +108,27 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 								<IconButton aria-label="close" onClick={handleClose} sx={{position: 'absolute', right: '5px', top: '5px'}}>
 									<CloseIcon sx={{fontSize: 30, color: '#ffffff'}}/>
 								</IconButton>
-								<Typography variant="h3" color="secondary" component="h2" gutterBottom sx={{fontSize: matches ? '2rem' : '2.8rem'}}>
-									{original_language === 'es' ? original_title : title}
+								<Typography variant="h4" color="secondary" component="h2" gutterBottom>
+									{title}
 								</Typography>
+								<Box>
+									<Typography variant="body1" component="span" sx={{fontFamily: 'Merienda'}} gutterBottom>Título original:</Typography>
+									<Chip label={original_language} variant="outlined" color="secondary" size="small"
+										sx={{
+											textTransform: 'uppercase',
+											borderRadius: '4px',
+											verticalAlign: 'text-bottom',
+											margin: theme => theme.spacing(0,1),
+											'.MuiChip-label': {
+												paddingLeft: '4px',
+												paddingRight: '4px'
+											}
+										}}
+									/>
+									<Typography variant="body1" component="span" gutterBottom color="secondary.light">{original_title}</Typography>
+								</Box>
 								{tagline &&
-									<Typography variant="h5" component="h3" sx={{color: 'greenyellow', fontStyle: 'italic'}}>{tagline}</Typography>
+									<Typography variant="h6" component="h3" gutterBottom sx={{color: 'greenyellow', fontStyle: 'italic'}}>{tagline}</Typography>
 								}
 								<Typography variant="body1" component="p">{overview}</Typography>
 								{Object.keys(movieDetails)?.length > 0 &&
@@ -120,7 +136,7 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 										<div style={{display:'flex', justifyContent: 'space-evenly', alignItems: 'center', marginTop: '1rem'}}>
 											<div>
 												<Typography variant="h6" component="p" sx={{fontSize: '1rem'}}>Fecha de estreno:</Typography>
-												<Typography variant="h6" component="h3" color="primary.light"> {release_date}</Typography>
+												<Typography variant="h6" component="h3" color="primary.light"> {dateFormatted(release_date)}</Typography>
 											</div>
 											{runtime &&
 												<div>

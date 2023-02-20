@@ -13,21 +13,22 @@ export const HomePage = () => {
 
   const { searchFilters } = useContext( SearchFiltersContext );
 
-
+  // FIXME: Cambiar URLS TopMovies
+  
   // TODO: urlTrending 
-  // `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`
+  // `https://api.themoviedb.org/3/trending/movie/week${URL_REQUIRED_PARAMS}`
 
   // TODO: Ahora en cines
-  // https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1
+  // https://api.themoviedb.org/3/movie/now_playing${URL_REQUIRED_PARAMS}&page=1
 
   // TODO: Get popular
-  // https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1
+  // https://api.themoviedb.org/3/movie/popular${URL_REQUIRED_PARAMS}&page=1
 
   // TODO: Get top rated
-  // https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&language=en-US&page=1
+  // https://api.themoviedb.org/3/movie/top_rated${URL_REQUIRED_PARAMS}&page=1
 
   // TODO: Get upcoming
-  // https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1
+  // https://api.themoviedb.org/3/movie/upcoming${URL_REQUIRED_PARAMS}&page=1
 
   return (
     <>

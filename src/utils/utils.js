@@ -30,3 +30,7 @@ export const convertMinsToTime = (mins) => {
 	minutes = minutes < 10 ? '0' + minutes : minutes;
 	return `${hours}h ${minutes}mins`;
 }
+
+export const dateFormatted = (date) => {
+	return new Date(date).toLocaleDateString('es-ES');
+}
