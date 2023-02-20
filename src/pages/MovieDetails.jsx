@@ -8,7 +8,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import no_img from '../assets/img/no_img.png';
 import { URL_IMG_BACKDROP, URL_IMG_POSTER } from '../helpers/constants';
 import { convertMinsToTime } from '../utils/utils';
-import { useFetchRatings } from '../hooks';
 import { getDetailedMovie } from '../services';
 import { Cast, Genres, Ratings } from '../components/movieDetails';
 
@@ -52,8 +51,6 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 
 	const {title, original_title, original_language, backdrop_path, poster_path, genres,overview, tagline, vote_average, vote_count, release_date, runtime, imdb_id} = movieDetails;
 
-	// Llamamos a nuestro custom hook useFetchRatings
-	const { ratings } = useFetchRatings(imdb_id); // TODO: añadir loading
 
 	// TODO: Reviews
 	// const url_reviews = `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${API_KEY}`;
@@ -89,11 +86,7 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 
 	return (
 		<div>
-			{loading ? // FIXME: arreglar estilos del Backdrop
-				<Backdrop open={loading}>
-					<CircularProgress color="secondary" />
-				</Backdrop>
-			:
+			{!loading &&
 				<Dialog onClose={handleClose} aria-labelledby={title} open={open}
 					sx={styles.dialog}
 					style={{
@@ -147,7 +140,7 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 										<Genres genres={genres} />
 									}
 									<Ratings
-										ratings={ratings}
+										imdb_id={imdb_id}
 										vote_average={vote_average}
 										vote_count={vote_count}
 									/>
@@ -164,6 +157,10 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 					}
 				</Dialog>
 			}
+
+			<Backdrop open={loading} sx={{zIndex: 100, backgroundColor: 'rgba(102, 102, 102, 0.7)'}}>
+				<CircularProgress color="secondary" size={60} />
+			</Backdrop>
 		</div>
 	)
 }

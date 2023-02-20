@@ -4,18 +4,15 @@ import { getRatingsImdb } from '../services';
 
 export const useFetchRatings = (imdb_id) => {
 
-  // TODO: añadir loading
-
-  const [state, setState] = useState({
-    ratings: []
-  })
+	const [state, setState] = useState({ ratings: [], loadingRatings: true });
 
   useEffect( () => {
     getRatingsImdb(imdb_id) 
-      .then( r => {
-        //console.log(r);
+      .then( ratings => {
+        //console.log(ratings);
         setState({
-          ratings: r
+          ratings: ratings,
+          loadingRatings: false
         });
       })
   }, [imdb_id]) 

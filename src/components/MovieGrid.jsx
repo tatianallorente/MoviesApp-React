@@ -26,6 +26,9 @@ const MovieGrid = () => {
 
 
 	useEffect(() => {
+		setLoading(true);
+		setMovies([]);
+
 		getSearchResults(searchFilters, currentPage)
 			.then(data => {
 				const { results, total_pages, total_results } = data;

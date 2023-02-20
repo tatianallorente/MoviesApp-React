@@ -1,9 +1,14 @@
 import PropTypes from "prop-types";
 
-import { Box, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
+
+import { useFetchRatings } from "../../hooks";
 
 
-export const Ratings = ({ratings, vote_average, vote_count}) => {
+export const Ratings = ({imdb_id, vote_average, vote_count}) => {
+
+	// Llamamos a nuestro custom hook useFetchRatings
+	const { ratings, loadingRatings } = useFetchRatings(imdb_id);
 
   const styles = {
     ratings: {
@@ -24,18 +29,16 @@ export const Ratings = ({ratings, vote_average, vote_count}) => {
     <>
       <Typography variant="h6" component="h3" color="secondary">Puntuación:</Typography>
       <Box component="ul" sx={styles.ratings}>
-        {ratings?.length > 0
-          ?	<>
-              <Box component="li"><strong>TMDB:</strong> {vote_average} de {vote_count} votos</Box>
-              {ratings?.map((r) => {
-                return (
-                  <Box component="li" key={r.Source}>
-                    <strong>{r.Source}:</strong> {r.Value}
-                  </Box>
-                )
-              })}
-            </>
-          : <Box component="li"><strong>TMDB:</strong> {vote_average} de {vote_count} votos</Box>
+        <Box component="li"><strong>TMDB:</strong> {vote_average} de {vote_count} votos</Box>
+        {loadingRatings && <CircularProgress /> }
+        {!loadingRatings && ratings?.length > 0 &&
+          ratings?.map((rating) => {
+            return (
+              <Box component="li" key={rating.Source}>
+                <strong>{rating.Source}:</strong> {rating.Value}
+              </Box>
+            )
+          })
         }
       </Box>
     </>
@@ -43,7 +46,7 @@ export const Ratings = ({ratings, vote_average, vote_count}) => {
 }
 
 Ratings.propTypes = {
-	ratings: PropTypes.array.isRequired,
+  imdb_id: PropTypes.string.isRequired,
   vote_average: PropTypes.number.isRequired,
   vote_count: PropTypes.number.isRequired,
 }
