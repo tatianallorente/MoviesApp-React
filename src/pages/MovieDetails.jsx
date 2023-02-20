@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from "prop-types";
 
 import { useTheme } from '@mui/material/styles';
-import { Backdrop, Box, Chip, CircularProgress, Container, Dialog, DialogContent, IconButton, Typography, useMediaQuery, Zoom } from '@mui/material';
+import { Backdrop, Box, CircularProgress, Dialog, DialogContent, IconButton, Typography, useMediaQuery, Zoom } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { SearchFiltersContext } from '../context/SearchFiltersContext';
 import no_img from '../assets/img/no_img.png';
 import { URL_IMG_BACKDROP, URL_IMG_POSTER } from '../helpers/constants';
 import { convertMinsToTime } from '../utils/utils';
 import { useFetchRatings } from '../hooks';
 import { getDetailedMovie } from '../services';
+import { Cast, Genres, Ratings } from '../components/movieDetails';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -35,59 +35,6 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 			outline: 0,
 			padding: '0px !important',
     },
-    dialogFooter: {
-			color: 'white',
-			padding: '24px'
-    },
-    movieGenres: {
-			marginTop: '1rem',
-			'& > ul': {
-				display: 'flex', 
-				flexWrap: 'wrap',
-				listStyle: 'none', 
-				padding: '0',
-				'& > li': {
-					paddingRight: '5px',
-					paddingBottom: '5px'
-				} 
-			}
-    },
-    ratings: {
-			display:'flex',
-			justifyContent: 'space-evenly',
-			padding: 0,
-			'& > li': {
-				padding: '5px',
-				margin: '5px',
-				listStyle: 'none',
-				textAlign: 'center'        
-			}
-    },
-    castContainer: {
-			padding: '0', 
-			display: 'flex', 
-			flexWrap: 'wrap',
-			marginTop: '12px',
-    },
-    cast: {
-			display: 'flex',
-			flexDirection: 'column',
-			flexGrow: .1,
-			flexBasis: 0,
-			'& div': {
-				padding: '10px 0',
-				wordBreak: 'break-word',
-				'& span:first-of-type': {
-					display: 'block'
-				},
-				'& span:last-child': {
-					color: 'grey'
-				},
-			},
-			'&:last-child': {
-				marginRight: 0
-			}
-    },
     loading: {
 			height: '100%',
 			width: '100vw',    
@@ -99,12 +46,11 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
     }
 	};
 
-
-	const { setSearchFilters } = useContext( SearchFiltersContext );
-
 	const [loading, setLoading] = useState(true);
 	const [movieDetails, setDetailedMovie] = useState([]);
 	const [movieCast, setCastMovie] = useState([]);
+
+	const {title, original_title, original_language, backdrop_path, poster_path, genres,overview, tagline, vote_average, vote_count, release_date, runtime, imdb_id} = movieDetails;
 
 	// Llamamos a nuestro custom hook useFetchRatings
 	const { ratings } = useFetchRatings(imdb_id); // TODO: añadir loading
@@ -114,8 +60,6 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down(600)); //600px
-
-	const {title, original_title, original_language, backdrop_path, poster_path, genres,overview, tagline, vote_average, vote_count, release_date, runtime, imdb_id} = movieDetails;
 
 	// Imágenes
 	const background_url = `${URL_IMG_BACKDROP}${backdrop_path}`;
@@ -132,20 +76,6 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 	}, [idMovie]);
 
 
-	const searchActor = (castId) => {
-		// TODO: hay que rellenar el autocompletado (filtros de la busqueda avanzada)
-		handleClose();
-		setSearchFilters({
-			titleForm: '',
-			genreForm: '',
-			ratingForm: '',
-			yearForm: '',
-			withCastForm: castId,
-			orderByForm: 'primary_release_date.desc'
-		});
-		//handleFiltersChange();
-	}
-
 	// TODO: trailers de las peliculas
   // https://api.themoviedb.org/3/movie/315162/videos?api_key=${API_KEY}&language=en-US
 
@@ -157,7 +87,6 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
   // https://www.themoviedb.org/movie/550-fight-club/watch?locale=ES
 
 
-	// TODO: componetizar cada parte del modal
 	return (
 		<div>
 			{loading ? // FIXME: arreglar estilos del Backdrop
@@ -215,35 +144,13 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 										}
 									</div>
 									{genres && genres?.length > 0 &&
-										<Box sx={styles.movieGenres}>
-											<Typography variant="h6" component="h3" color="secondary">Géneros:</Typography>
-											<ul>
-												{genres?.map((genre) => {
-													return (
-														<li key={genre.id}>
-															<Chip label={genre.name} />
-														</li>
-													)
-												})}
-											</ul>
-										</Box>
+										<Genres genres={genres} />
 									}
-									<Typography variant="h6" component="h3" color="secondary">Puntuación:</Typography>
-									<Box component="ul" sx={styles.ratings}>
-										{ratings?.length > 0
-											?	<>
-													<li><strong>TMDB:</strong> {vote_average} de {vote_count} votos</li>
-													{ratings?.map((r) => {
-														return (
-															<li key={r.Source}>
-																<strong>{r.Source}:</strong> {r.Value}
-															</li>
-														)
-													})}
-												</>
-											: <li><strong>TMDB:</strong> {vote_average} de {vote_count} votos</li>
-										}
-									</Box>
+									<Ratings
+										ratings={ratings}
+										vote_average={vote_average}
+										vote_count={vote_count}
+									/>
 								</>
 							}
 							{/* 
@@ -253,36 +160,7 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 					</DialogContent>
 
 					{(Object.keys(movieDetails).length > 0 && movieCast.length > 0 && !matches) &&
-						<Box sx={styles.dialogFooter}>
-							<Typography variant="h6" component="h3" color="secondary">Reparto:</Typography>
-							<Container maxWidth="xl" sx={styles.castContainer}>
-								{movieCast.slice(0, 10).map((cast) => {
-									return (
-										<Box key={cast.id} sx={styles.cast} mr={theme.spacing(3)}>
-											<img 
-												src={cast.profile_path ? `https://image.tmdb.org/t/p/w185${cast.profile_path}` : no_img}
-												alt={cast.character}
-												onClick={() => searchActor(cast.id)}
-												style={{cursor: 'pointer', maxWidth: '100%'}} 
-											/>
-											<Box>
-												<Box component="span">{cast.character}</Box>
-												<Box component="span" onClick={() => searchActor(cast.id)}
-													sx={{
-														cursor: 'pointer',
-														'&:hover': {
-															textDecoration: 'underline'
-														}
-												}}
-												>
-													{cast.name}
-												</Box>
-											</Box>
-										</Box>
-									)
-								})}
-							</Container>
-						</Box>
+						<Cast movieCast={movieCast} handleClose={handleClose} />
 					}
 				</Dialog>
 			}
