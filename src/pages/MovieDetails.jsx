@@ -31,7 +31,7 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 		dialogContent: {
 			display: 'flex',
 			flexDirection: 'column',
-			//color: '#fff',
+			color: '#fff',
 			//outline: 0,
 			padding: '0px !important',
     },
@@ -119,8 +119,8 @@ const MovieDetails = ({ idMovie, handleClose, open }) => {
 									<>
 										<div style={{display:'flex', justifyContent: 'space-evenly', alignItems: 'center', marginTop: '1rem'}}>
 											<div>
-													<Typography variant="h6" component="p" sx={{fontSize: '1rem'}}>Fecha de estreno:</Typography>
-													<Typography variant="h6" component="h3" color="primary.light"> {release_date}</Typography>
+												<Typography variant="h6" component="p" sx={{fontSize: '1rem'}}>Fecha de estreno:</Typography>
+												<Typography variant="h6" component="h3" color="primary.light"> {release_date}</Typography>
 											</div>
 											{runtime &&
 												<div>

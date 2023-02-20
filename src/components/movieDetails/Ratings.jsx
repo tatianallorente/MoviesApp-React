@@ -5,6 +5,28 @@ import { Box, CircularProgress, Rating, Typography } from '@mui/material';
 import { useFetchRatings } from "../../hooks";
 
 
+const RatingCustom = ({name, value, titleSource, titleValue, ...props}) => {
+  return (
+    <>
+      <span><strong>{titleSource}:</strong></span>
+      <span>{titleValue}</span>
+      <Rating
+        {...props}
+        name={name}
+        value={value}
+        precision={0.1}
+        readOnly
+        sx={{
+          color: theme => theme.palette.secondary.main,
+          '.MuiRating-iconEmpty':{
+            color: 'rgba(255, 255, 255, 0.3)'
+          }
+        }}
+      />
+    </>
+  );
+}
+
 export const Ratings = ({imdb_id, vote_average, vote_count}) => {
 
 	// Llamamos a nuestro custom hook useFetchRatings
@@ -12,15 +34,14 @@ export const Ratings = ({imdb_id, vote_average, vote_count}) => {
 
   const styles = {
     ratings: {
-			display:'flex',
-			justifyContent: 'space-between',
-      flexWrap: 'wrap',
+			display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+      gap: theme => theme.spacing(1),
 			padding: 0,
 			'& > li': {
-				padding: '5px',
-				margin: '5px',
-				listStyle: 'none',
-				textAlign: 'center'        
+        display: 'flex',
+        placeItems: 'center',
+        flexDirection: 'column',
 			}
     },
   };
@@ -30,28 +51,24 @@ export const Ratings = ({imdb_id, vote_average, vote_count}) => {
     <>
       <Typography variant="h6" component="h3" color="secondary">Puntuación:</Typography>
       <Box component="ul" sx={styles.ratings}>
-        <Box component="li" display="flex" flexDirection="column">
-          <strong>TMDB:</strong> {parseFloat(vote_average).toFixed(2)} de {vote_count} votos
-          <Rating
+        <Box component="li">
+          <RatingCustom
             name="TMDB"
             value={(parseFloat(vote_average)*5)/10}
-            precision={0.1}
-            readOnly
-            sx={{color: theme => theme.palette.secondary.main}}
+            titleSource="TMDB"
+            titleValue={`${parseFloat(vote_average).toFixed(2)} de ${vote_count} votos`}
           />
         </Box>
         {loadingRatings && <CircularProgress /> }
         {!loadingRatings && ratings?.length > 0 &&
           ratings?.map((rating) => {
             return (
-              <Box component="li" display="flex" flexDirection="column" key={rating.Source}>
-                <strong>{rating.Source}:</strong> {rating.Value}
-                <Rating
+              <Box component="li" key={rating.Source}>
+                <RatingCustom
                   name={rating.Source}
                   value={rating.ratingValue}
-                  precision={0.1}
-                  readOnly
-                  sx={{color: theme => theme.palette.secondary.main}}
+                  titleSource={rating.Source}
+                  titleValue={rating.Value}
                 />
               </Box>
             )

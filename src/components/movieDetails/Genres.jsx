@@ -29,7 +29,7 @@ export const Genres = ({genres}) => {
         {genres?.map((genre) => {
           return (
             <Box component="li" key={genre.id}>
-              <Chip label={genre.name} />
+              <Chip label={genre.name} sx={{color: '#fff', backgroundColor: 'rgba(255, 255, 255, 0.16)'}} />
             </Box>
           )
         })}

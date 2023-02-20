@@ -7,7 +7,7 @@ export const customTheme = (themeMode) => {
   const mainPrimaryColor = indigo[500]; //cyan[900]
   const mainSecondaryColor = themeMode === "dark" ? amber[400] : amber[500];
   const textSecondaryColor = themeMode === "dark" ? indigo[300] : indigo[800];  
-  const backgroundColor = themeMode === "dark" ? '#303030' : '#ffffff';
+  const backgroundColor = themeMode === "dark" ? '#303030' : '#fbfbfb';
 
 
   const customTheme = createTheme({
