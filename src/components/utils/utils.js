@@ -9,7 +9,7 @@ export const years = () => {
 }
 
 // Array de puntuación
-export const numeros = [1,2,3,4,5,6,7,8,9];
+export const ratingNumbers = [1,2,3,4,5,6,7,8,9];
 
 // Default: popularity.desc
 export const sortBy =  

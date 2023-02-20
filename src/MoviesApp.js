@@ -1,28 +1,24 @@
 import React, { useState } from 'react';
-// Material-ui
+
 import Container from '@material-ui/core/Container';
 // Es como normalize.css para resetear los estilos por defecto del navegador
 import CssBaseline from '@material-ui/core/CssBaseline';
-
-
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { amber, indigo } from '@material-ui/core/colors';
 import Box from '@material-ui/core/Box';
-
 
 import Search from './components/Search';
 import MovieGrid from './components/MovieGrid';
 import Menu from './components/ui/Menu';
 import { TopMovies } from './components/ui/TopMovies';
 import { API_KEY } from './helpers/constants';
-
 import './styles.css';
-import { amber, indigo } from '@material-ui/core/colors';
 
 
 function MoviesApp() {
 
-	const [filtros, guardarFiltros] = useState({});
+	const [filters, setFilters] = useState({});
 
 	const existingPreference = localStorage.getItem("moviesThemeMode"); 
 	const initialState = existingPreference === 'light' ? 'light' : 'dark';
@@ -48,16 +44,16 @@ function MoviesApp() {
 		},
 		typography: {  
 			h2: {
-			  	fontFamily: 'Merienda'
+			  	fontFamily: 'Merienda, sans-serif'
 			},       
 			h3: {
-			  	fontFamily: 'Merienda'
+				fontFamily: 'Merienda, sans-serif'
 			},  
 			h4: {
-				fontFamily: 'Merienda'
+				fontFamily: 'Merienda, sans-serif'
 			}, 
 			h6: {
-			  fontFamily: 'Merienda'
+				fontFamily: 'Merienda, sans-serif'
 			},
 		},
 	});
@@ -88,6 +84,8 @@ function MoviesApp() {
 
 	const urlRating = `https://api.themoviedb.org/3/discover/movie?certification_country=US&certification=R&sort_by=vote_average.desc&vote_count.gte=18000&api_key=${API_KEY}`;
 
+	// TODO: top upcoming
+
     return (
     
         <ThemeProvider theme={darkTheme}>
@@ -113,14 +111,14 @@ function MoviesApp() {
 
           	<Box margin={'50px auto'} className={classes.search}>
               	<Search
-                    guardarFiltros={guardarFiltros}
+                    setFilters={setFilters}
                 />
             </Box>
 
-            { Object.keys(filtros).length > 0 ?
+            { Object.keys(filters).length > 0 ?
                 <Container maxWidth="xl">
                     <MovieGrid
-                        busqueda={filtros}
+                        busqueda={filters}
                     />
                 </Container>
                 : null

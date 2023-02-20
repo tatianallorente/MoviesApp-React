@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MovieGrid = ({busqueda}) => {
 
-    const { titulo } = busqueda;
+    const { title } = busqueda;
 
     // state de la app
     const [movies, setMovies] = useState({
@@ -70,11 +70,11 @@ const MovieGrid = ({busqueda}) => {
     return (
         <>
 
-        { titulo && 
+        { title && 
             <Typography variant="h4" color="textPrimary" component="h3">
                 Resultados para:&nbsp;
                 <Typography variant="h4" color="secondary" component="span">
-                    {titulo}
+                    {title}
                 </Typography>
             </Typography>
         }

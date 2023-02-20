@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 30,
         color: '#fff'
     },
-    generos: {
+    movieGenres: {
         marginTop: '1rem',
         '& > ul': {
             display: 'flex', 
@@ -106,6 +106,7 @@ const useStyles = makeStyles((theme) => ({
         },
         '& div': {
             padding: '10px 0',
+            wordBreak: 'break-word',
             '& span:first-child': {
                 display: 'block'
             },
@@ -229,7 +230,7 @@ export const MovieModal = ({movieDetails, movieCast, handleClose, open}) => {
                             }
                             </div>
                             {genres && genres.length > 0 ?
-                                <div className={classes.generos}>
+                                <div className={classes.movieGenres}>
                                     <Typography variant="h6" component="h3" color="secondary">Géneros:</Typography>
                                     <ul>
                                         {genres.map((genre) => {

@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import no_img from '../../img/no_img.png';
 import { useFetch } from '../../hooks/useFetch';
 import { MovieModal } from './MovieModal';
+import { getDetailedMovie } from '../services/getDetailedMovie';
+import { getCastMovie } from '../services/getCastMovie';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -55,11 +57,16 @@ export const TopMovies = ({topUrl, topTitle}) => {
     const [open, setOpen] = useState(false);
 
     const [activeMovie, setActiveMovie] = useState({});
+    const [movieCast, setCastMovie] = useState([]);
 
 
     const handleOpen = (movie) => {
-        // TODO: a partir de los genre_ids, obtener el name de los generos y añadirlo a movie
-        setActiveMovie(movie);
+        getDetailedMovie(movie.id)
+            .then(movie => setActiveMovie(movie));
+        
+        getCastMovie(movie.id)
+            .then(cast => setCastMovie(cast));
+
         setOpen(true);
     };
     
@@ -111,7 +118,7 @@ export const TopMovies = ({topUrl, topTitle}) => {
             { open ?  
                 <MovieModal
                     movieDetails={activeMovie}
-                    movieCast={{}}
+                    movieCast={movieCast}
                     handleClose={handleClose}
                     open={open}
                    // ratings={ratings}
