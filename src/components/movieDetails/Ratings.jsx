@@ -59,7 +59,7 @@ export const Ratings = ({imdb_id, vote_average, vote_count}) => {
             titleValue={`${parseFloat(vote_average).toFixed(2)} de ${vote_count} votos`}
           />
         </Box>
-        {loadingRatings && <CircularProgress /> }
+        {loadingRatings && <Box component="li"><CircularProgress color="secondary" /></Box> }
         {!loadingRatings && ratings?.length > 0 &&
           ratings?.map((rating) => {
             return (

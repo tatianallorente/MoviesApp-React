@@ -9,7 +9,7 @@ import { useFetch } from '../hooks';
 import no_img from '../assets/img/no_img.png';
 import { URL_IMG_BACKDROP, URL_IMG_POSTER, URL_REQUIRED_PARAMS } from '../helpers/constants';
 import { convertMinsToTime, dateFormatted } from '../utils/utils';
-import { Genres, Ratings } from './movieDetails';
+import { TitleAndOverview, Genres, Ratings } from './movieDetails';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -78,34 +78,18 @@ const ModalMovieDetails = ({ idMovie, handleClose, open }) => {
 							{!matches &&
 								<img src={poster_path ? img_url : no_img} alt={title} style={{maxWidth: '50%', objectFit: 'cover'}} />
 							}
-							<Box sx={{padding: theme => theme.spacing(2, 4)}} display="flex" justifyContent="space-between" flexDirection="column">
+							<Box p={4} sx={{color: 'white'}} display="flex" justifyContent="space-between" flexDirection="column">
 								<Box>
 									<IconButton aria-label="close" onClick={handleClose} sx={{position: 'absolute', right: '5px', top: '5px'}}>
 										<CloseIcon sx={{fontSize: 30, color: '#ffffff'}}/>
 									</IconButton>
-									<Typography variant="h4" color="secondary" component="h2" gutterBottom>
-										{title}
-									</Typography>
-									<Box>
-										<Typography variant="body1" component="span" sx={{fontFamily: 'Merienda, sans-serif'}} gutterBottom>Título original:</Typography>
-										<Chip label={original_language} variant="outlined" color="secondary" size="small"
-											sx={{
-												textTransform: 'uppercase',
-												borderRadius: '4px',
-												verticalAlign: 'text-bottom',
-												margin: theme => theme.spacing(0,1),
-												'.MuiChip-label': {
-													paddingLeft: theme => theme.spacing(0.5),
-													paddingRight: theme => theme.spacing(0.5),
-												}
-											}}
-										/>
-										<Typography variant="body1" component="span" gutterBottom color="secondary.light">{original_title}</Typography>
-									</Box>
-									{tagline &&
-										<Typography variant="h6" component="h3" gutterBottom sx={{color: 'greenyellow', fontStyle: 'italic'}}>{tagline}</Typography>
-									}
-									<Typography variant="body1" component="p">{overview}</Typography>
+									<TitleAndOverview
+										title={title}
+										originalTitle={original_title}
+										originalLanguage={original_language}
+										tagline={tagline}
+										overview={overview}
+									/>
 									{Object.keys(movieDetails)?.length > 0 &&
 										<>
 											<Box display="flex" justifyContent="space-evenly" alignItems="center" mt={2}>
