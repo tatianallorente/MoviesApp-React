@@ -10,17 +10,15 @@ import { getPerson } from '../../services';
 
 const AdvancedSearch = ({formFiltersValues, handleFiltersChange}) => {
 
+  const { setSearchFilters } = useContext( SearchFiltersContext );
+
+  const { genreForm, ratingForm, yearForm, withCastForm, orderByForm } = formFiltersValues;
+
   const styles = {
     formControl: {
       marginRight: theme => theme.spacing(2),
     },
   };
-
-  //const [error, guardarError] = useState(false);
-
-  const { genreForm, ratingForm, yearForm, withCastForm, orderByForm } = formFiltersValues;
-
-  const { setSearchFilters } = useContext( SearchFiltersContext );
 
 
   // FIXME: hacer esto de otra forma
@@ -167,6 +165,7 @@ const AdvancedSearch = ({formFiltersValues, handleFiltersChange}) => {
           list="autocomplete-cast" 
           id="withCastFormId"
           name="withCastForm"
+          value={withCastForm}
           color="secondary"
           onChange={handleFiltersChange}
           onKeyUp={handleKeyUp}

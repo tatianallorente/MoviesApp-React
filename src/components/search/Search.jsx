@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 
-import { Box, Container, TextField, InputAdornment, Tabs, Tab, Button } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { Box, Container, Tabs, Tab, Button } from '@mui/material';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 
 import { SearchFiltersContext } from "../../context/SearchFiltersContext";
 import { useForm } from '../../hooks';
-import AdvancedSearch from "./AdvancedSearch";
 import { URL_GENRES } from "../../helpers/constants";
+import TitleSearch from "./titleSearch";
+import AdvancedSearch from "./AdvancedSearch";
+
 
 const Search = () => {
 
@@ -24,8 +25,6 @@ const Search = () => {
     withCastForm: '',
     orderByForm: 'popularity.desc'
   } );
-  
-  const { titleForm } = formFiltersValues;
 
   
   useEffect(() => {
@@ -58,6 +57,8 @@ const Search = () => {
   // TODO: Buscador de titulo puede ser: Buscar por título o persona (en general, actriz, director, camaras, etc)
   // Devolver todo lo que devuelva la busqueda por categoria
 
+  // TODO: Hacer una pagina con estas preguntas https://www.themoviedb.org/documentation/api/discover
+  // y mostrar los resultados (poner inputs para cambiar los parámetros)
 
   return (
     <Container maxWidth="md">
@@ -79,31 +80,11 @@ const Search = () => {
 
         <Box mt={3} mb={3} sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end'}}>
           {tabValue === 0
-            ? <>
-                <TextField 
-                  id="titleForm"
-                  name="titleForm"
-                  variant="standard"
-                  value={titleForm}
-                  label=" " 
-                  placeholder="Escribe algo..."
-                  color="secondary"
-                  onChange={handleFiltersChange}
-                  fullWidth
-                  sx={{marginRight: theme => theme.spacing(2)}}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                
-                <Button variant="contained" color="secondary" onClick={searchMovies} disableElevation>
-                  Buscar
-                </Button>
-              </>
+            ? <TitleSearch
+                formFiltersValues={formFiltersValues}
+                handleFiltersChange={handleFiltersChange}
+                searchMovies={searchMovies}
+              />
             : <AdvancedSearch
                 formFiltersValues={formFiltersValues}
                 handleFiltersChange={handleFiltersChange}
