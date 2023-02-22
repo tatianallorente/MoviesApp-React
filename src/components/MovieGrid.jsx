@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 
-import { Alert, Container, Grid, LinearProgress, Typography } from '@mui/material';
+import { Container, Grid, LinearProgress, Typography } from '@mui/material';
 
 import { SearchFiltersContext } from '../context/SearchFiltersContext';
-import { PaginationUi } from './ui';
+import { ErrorMessage, PaginationUi } from './ui';
 import MovieGridItem from './MovieGridItem';
 import { getSearchResults } from '../services/getSearchResults';
 
@@ -107,7 +107,7 @@ const MovieGrid = () => {
 
 			{!loading && movies?.length < 1 &&
 				<Container maxWidth="md" sx={{textAlign: 'center', marginTop: '10px'}}>
-					<Alert severity="warning">No se encontraron resultados</Alert>
+					<ErrorMessage />
 				</Container>
 			}
 		</>

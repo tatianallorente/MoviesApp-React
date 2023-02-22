@@ -46,7 +46,8 @@ export const HomePage = () => {
         <Search />
       </Box>
 
-      <Container maxWidth="xl"
+      <Container
+        maxWidth="xl"
         sx={(theme) => ({
           [theme.breakpoints.down('xl')]: {
             padding: theme => theme.spacing(0,8)
