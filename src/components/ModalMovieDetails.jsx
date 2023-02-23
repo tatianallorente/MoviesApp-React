@@ -83,13 +83,7 @@ const ModalMovieDetails = ({ idMovie, handleClose, open }) => {
 									<IconButton aria-label="close" onClick={handleClose} sx={{position: 'absolute', right: '5px', top: '5px'}}>
 										<CloseIcon sx={{fontSize: 30, color: '#ffffff'}}/>
 									</IconButton>
-									<TitleAndOverview
-										title={title}
-										originalTitle={original_title}
-										originalLanguage={original_language}
-										tagline={tagline}
-										overview={overview}
-									/>
+									<TitleAndOverview movieDetails={movieDetails} />
 									{Object.keys(movieDetails)?.length > 0 &&
 										<>
 											<Box display="flex" justifyContent="space-evenly" alignItems="center" mt={2}>

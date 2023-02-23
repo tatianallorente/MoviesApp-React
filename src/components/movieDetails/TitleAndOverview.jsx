@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { Box, Chip, Typography } from '@mui/material';
 
 
-export const TitleAndOverview = ({ title, originalTitle, originalLanguage, tagline, overview }) => {
-
+export const TitleAndOverview = ({ movieDetails }) => {
+  const { title, original_title, original_language, tagline, overview } = movieDetails;
 
 	return (
     <Box>
@@ -13,7 +13,7 @@ export const TitleAndOverview = ({ title, originalTitle, originalLanguage, tagli
       </Typography>
       <Box>
         <Typography variant="body1" component="span" sx={{fontFamily: 'Merienda'}} gutterBottom>Título original:</Typography>
-        <Chip label={originalLanguage} variant="outlined" color="secondary" size="small"
+        <Chip label={original_language} variant="outlined" color="secondary" size="small"
           sx={{
             textTransform: 'uppercase',
             borderRadius: '4px',
@@ -25,7 +25,7 @@ export const TitleAndOverview = ({ title, originalTitle, originalLanguage, tagli
             }
           }}
         />
-        <Typography variant="body1" component="span" gutterBottom color="secondary.light">{originalTitle}</Typography>
+        <Typography variant="body1" component="span" gutterBottom color="secondary.light">{original_title}</Typography>
       </Box>
       {tagline &&
         <Typography variant="h6" component="h3" gutterBottom sx={{color: 'greenyellow', fontStyle: 'italic'}}>{tagline}</Typography>
@@ -36,9 +36,11 @@ export const TitleAndOverview = ({ title, originalTitle, originalLanguage, tagli
 }
 
 TitleAndOverview.propTypes = {
-	title: PropTypes.string.isRequired,
-	originalTitle: PropTypes.string.isRequired,
-	originalLanguage: PropTypes.string.isRequired,
-	tagline: PropTypes.string.isRequired,
-  overview: PropTypes.string.isRequired,
+  movieDetails: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    original_title: PropTypes.string.isRequired,
+    original_language: PropTypes.string.isRequired,
+    tagline: PropTypes.string.isRequired,
+    overview: PropTypes.string.isRequired,
+  }),
 }
