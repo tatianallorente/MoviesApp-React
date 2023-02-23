@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { IconButton, ImageList, ImageListItem, ImageListItemBar, Typography, Box } from "@mui/material";
+import { IconButton, ImageList, ImageListItem, ImageListItemBar, Typography, Box, Skeleton } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
 
 import { useFetch, useModal } from "../hooks";
@@ -11,7 +11,7 @@ import { URL_IMG_POSTER } from "../helpers/constants";
 const TopMovies = ({topUrl, topTitle}) => {
   const { open, toggleModal } = useModal();
 
-  const { data } = useFetch(topUrl);
+  const { data, loading } = useFetch(topUrl);
   const topMovies = data ? data?.results?.filter((result) =>  result.backdrop_path) : [];
 
 	const [currentMovie, setCurrentMovie] = useState('');
@@ -20,9 +20,13 @@ const TopMovies = ({topUrl, topTitle}) => {
   // TODO: Mejorar scroll
   return (
     <Box mb={6} sx={{':is(:last-child)': {mb: 0}}}>
-      <Typography variant="h4" color="secondary" component="h3" sx={{borderLeft: '5px solid', paddingLeft: theme => theme.spacing(1)}} gutterBottom>
+      <Typography variant="h5" color="secondary" component="h3" gutterBottom pl={1} sx={{borderLeft: '5px solid'}}>
         {topTitle}
       </Typography>
+
+      {loading && 
+        <Skeleton variant="rectangular" height={200} animation="wave" />
+      }
 
       {topMovies?.length > 0 && 
         <ImageList 
