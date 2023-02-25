@@ -78,7 +78,7 @@ const Search = () => {
           </Tabs>
         </Box>
 
-        <Box mt={3} mb={3} sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end'}}>
+        <Box mt={3} mb={3} display="flex" justifyContent="space-between" alignItems="flex-end">
           {tabValue === 0
             ? <TitleSearch
                 formFiltersValues={formFiltersValues}
