@@ -5,8 +5,8 @@ import { CssBaseline } from '@mui/material';
 import { Box } from '@mui/material';
 
 import { SearchFiltersProvider } from './context/SearchFiltersProvider';
+import { AppRouter } from './router/AppRouter';
 import { customTheme } from './theme/customTheme';
-import { HomePage } from './pages/HomePage';
 import { Footer, Menu } from './components/ui';
 
 
@@ -26,7 +26,7 @@ function App() {
             themeMode={themeMode}
             setTheme={setThemeMode}
           />
-          <HomePage />
+          <AppRouter />
         </Box>
       </SearchFiltersProvider>
 

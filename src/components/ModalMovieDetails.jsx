@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from "prop-types";
 
 import { useTheme } from '@mui/material/styles';
-import { Backdrop, Box, CircularProgress, Dialog, DialogContent, IconButton, Typography, useMediaQuery, Zoom, Chip, Button } from '@mui/material';
+import { Backdrop, Box, CircularProgress, Dialog, DialogContent, IconButton, Typography, useMediaQuery, Zoom, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 import { useFetch } from '../hooks';
@@ -25,7 +26,7 @@ const ModalMovieDetails = ({ idMovie, handleClose, open }) => {
 	const urlDetails = `https://api.themoviedb.org/3/movie/${idMovie}${URL_REQUIRED_PARAMS}`;
 
   const { data:movieDetails, loading:loadingMovieDetails } = useFetch(urlDetails);
-	const { title, original_title, original_language, backdrop_path, poster_path, genres,overview, tagline, vote_average, vote_count, release_date, runtime, imdb_id } = movieDetails || {};
+	const { title, backdrop_path, poster_path, genres, vote_average, vote_count, release_date, runtime, imdb_id } = movieDetails || {};
 	
 	// Imágenes
 	const background_url = `${URL_IMG_BACKDROP}${backdrop_path}`;
@@ -110,7 +111,9 @@ const ModalMovieDetails = ({ idMovie, handleClose, open }) => {
 									}
 								</Box>
 								<Button variant="outlined" color="secondary" fullWidth size="small" sx={{mt: 2}}>
-									Ver detalles
+									<Link to={`/movie/${idMovie}`} style={{color: 'unset', textDecoration: 'none', width: '100%'}}>
+										Ver detalles
+									</Link>
 								</Button>
 							</Box>
 						</Box>
