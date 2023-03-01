@@ -1,17 +1,20 @@
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Box, Container, Typography } from '@mui/material';
 
-import { URL_REQUIRED_PARAMS } from '../helpers/constants';
+import { URL_IMG_POSTER, URL_REQUIRED_PARAMS } from '../helpers/constants';
 import { useFetch } from '../hooks';
 import no_img from '../assets/img/no_img.png';
 import { calculateAge, dateFormatted } from '../utils/utils';
+import { KnownForScroller } from '../components/personDetails';
 
 
 export const PersonPage = () => {
 
 	const { personID:personId } = useParams();
 
+  const [moviesKnownFor, setMoviesKnownFor] = useState([]);
 
   const urlPerson = `https://api.themoviedb.org/3/person/${personId}${URL_REQUIRED_PARAMS}`;
   const urlMovies = `https://api.themoviedb.org/3/person/${personId}/movie_credits${URL_REQUIRED_PARAMS}`;
@@ -21,6 +24,16 @@ export const PersonPage = () => {
 
   const { biography, birthday, name, place_of_birth, profile_path, deathday } = person || {};
   const { cast=[], crew=[] } = movies || {};
+
+
+  useEffect(() => {
+    if (cast?.length > 0) {
+      const castCopy = [...cast];
+      const knownForOrdered = castCopy?.sort((a,b)=> b.popularity - a.popularity).slice(0,10);
+
+      setMoviesKnownFor(knownForOrdered);
+    }
+  }, [cast]);
 
 
   return (
@@ -48,10 +61,11 @@ export const PersonPage = () => {
           <Typography variant="body1" component="p" gutterBottom>{place_of_birth}</Typography>
         </Box>
         <Box pl={4} sx={{ overflow: 'hidden'}}>
-          <Typography variant="h4" color="secondary" component="h2" gutterBottom>
-            {name}
-          </Typography>
+          <Typography variant="h4" color="secondary" component="h2" gutterBottom>{name}</Typography>
           <Typography variant="body1" component="p" gutterBottom sx={{whiteSpace: 'break-spaces'}}>{biography}</Typography>
+          
+          <Typography variant="h6" component="h3" color="secondary">Conocido/a por:</Typography>
+          <KnownForScroller movies={moviesKnownFor} />
         </Box>
       </Box>
       
