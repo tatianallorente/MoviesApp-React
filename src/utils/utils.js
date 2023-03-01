@@ -43,10 +43,11 @@ export const dateFormatted = (date, dateStyle='') => {
 	}
 }
 
-export const calculateAge = (birthday) => {
+export const calculateAge = (birthday, deathday='') => {
 	const birthDate = new Date(birthday);
+	const currentDate = deathday ? new Date(deathday) : Date.now();
 
-	const milliseconds = Date.now() - birthDate.getTime();
+	const milliseconds = currentDate - birthDate.getTime();
 	const ageDate = new Date(milliseconds); 
   
   return Math.abs(ageDate.getUTCFullYear() - 1970);

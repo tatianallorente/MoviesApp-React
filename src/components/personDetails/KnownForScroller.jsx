@@ -1,93 +1,91 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import { Box, Chip, Typography, ImageList, ImageListItem, ImageListItemBar, Tooltip } from '@mui/material';
+import { Box, ImageList, ImageListItem, ImageListItemBar, Skeleton, Typography } from '@mui/material';
 
 import { URL_IMG_POSTER_SMALL } from "../../helpers/constants";
 import no_img from '../../assets/img/no_img.png';
-import { Link, Navigate, useNavigate } from "react-router-dom";
 
-export const KnownForScroller = ({ movies }) => {
 
-const navigate = useNavigate();
-// console.log(movies)
+export const KnownForScroller = ({ cast, loading }) => {
 
-  //const pez = (id) => navigate(`/movie/${id}`);
+  const [moviesKnownFor, setMoviesKnownFor] = useState([]);
+
+  useEffect(() => {
+    if (cast?.length > 0) {
+      const castCopy = [...cast];
+      const knownForOrdered = castCopy?.sort((a,b)=> b.popularity - a.popularity).slice(0,10);
+
+      setMoviesKnownFor(knownForOrdered);
+    }
+  }, [cast]);
+
 
 	return (
-    <ImageList 
-    cols={4}
-    gap={16}
-    sx={{
-      //gridAutoFlow: 'column',
-      overflowX: 'scroll',
-      //gridTemplateColumns: 'calc(100% / 7.1) !important',
-      //gridAutoColumns: 'calc(100% / 7.1)',
-      marginTop: theme => theme.spacing(1),
-      display: 'flex',
-      flexWrap: 'nowrap'
-    }}
-  >
-        {movies?.map(movie => {
-          const {id, title, character, poster_path, popularity} = movie;//borrar popularity
+    <Box mt={2}>
+      <Typography variant="h6" component="h3" color="secondary">
+        {loading ? <Skeleton variant="text" /> : 'Conocido/a por:'}
+      </Typography>
+      <ImageList 
+        cols={4}
+        gap={16}
+        sx={{
+          overflowX: 'scroll',
+          marginTop: theme => theme.spacing(1),
+          display: 'flex',
+          flexWrap: 'nowrap'
+        }}
+      >
+        {loading &&
+          [...Array(10).keys()].map((index) => 
+            <ImageListItem key={index}>		
+              <Skeleton variant="rounded" height={200} width={125} animation="wave" key={index} />
+            </ImageListItem>
+          )
+        }
+
+        {!loading && moviesKnownFor?.map(movie => {
+          const {id, title, character, poster_path} = movie;
 
           return (
             <ImageListItem
               key={id}
               sx={{
                 cursor: 'pointer',
+                backgroundColor: '#585858',
+                borderTopLeftRadius: '6px',
+                borderTopRightRadius: '6px',
                 '&:hover': {
                   opacity: .5
                 },
-                //width: '120px',
-                //maxWidth: '140px'
               }}
-              //onClick={() => pez(id)}
             >		
               <Link to={`/movie/${id}`}>
-                <img src={`${URL_IMG_POSTER_SMALL}${poster_path}`} alt={title} title={title}
-                style={{
-                  borderTopLeftRadius: '6px', borderTopRightRadius: '6px',
-                  width: '125px'
-                }}
+                <img
+                  src={poster_path ? `${URL_IMG_POSTER_SMALL}${poster_path}` : no_img}
+                  alt={title}
+                  title={title}
+                  style={{
+                    borderTopLeftRadius: '6px',
+                    borderTopRightRadius: '6px',
+                    width: '125px'
+                  }}
                 />
                 <ImageListItemBar
                   title={title}
-                  subtitle={`${character} (${popularity})`}//borrar popularity
+                  subtitle={character}
                 />
               </Link>
             </ImageListItem>
           )
         })}
-    </ImageList>
+      </ImageList>
+    </Box>
 	)
 }
 
 KnownForScroller.propTypes = {
-	movies: PropTypes.array.isRequired,
+	cast: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
 }
-
-
-/*
-    <Box component="ul" 
-    sx={{
-      display: 'grid',
-      gridAutoFlow: 'column',
-      overflowX: 'scroll',
-      gap: theme => theme.spacing(2)
-      //gridTemplateColumns: 'calc(100% / 4.1) !important',
-      //gridAutoColumns: 'calc(100% / 4.1)',
-    }}>
-        {movies?.map(movie => {
-          const {id, title, character, poster_path, popularity} = movie;//borrar popularity
-
-          return (
-            <Box component="li" key={id}
-             
-            >
-              <img src={`${URL_IMG_POSTER}${poster_path}`} alt={title} />
-              <p>{title} - {character} - {popularity}</p>
-            </Box>
-          )
-        })}
-    </Box>
-*/

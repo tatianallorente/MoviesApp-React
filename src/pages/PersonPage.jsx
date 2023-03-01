@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container, Skeleton, Typography } from '@mui/material';
 
-import { URL_IMG_POSTER, URL_REQUIRED_PARAMS } from '../helpers/constants';
+import { URL_REQUIRED_PARAMS } from '../helpers/constants';
 import { useFetch } from '../hooks';
 import no_img from '../assets/img/no_img.png';
 import { calculateAge, dateFormatted } from '../utils/utils';
@@ -14,26 +13,17 @@ export const PersonPage = () => {
 
 	const { personID:personId } = useParams();
 
-  const [moviesKnownFor, setMoviesKnownFor] = useState([]);
-
   const urlPerson = `https://api.themoviedb.org/3/person/${personId}${URL_REQUIRED_PARAMS}`;
   const urlMovies = `https://api.themoviedb.org/3/person/${personId}/movie_credits${URL_REQUIRED_PARAMS}`;
 
   const { data:person, loading:loadingPerson, error:errorPerson } = useFetch(urlPerson);
-  const { data:movies, loading:loadingMovies, error:errorMovies } = useFetch(urlMovies);
+  const { data:movies={}, loading:loadingMovies, error:errorMovies } = useFetch(urlMovies);
 
   const { biography, birthday, name, place_of_birth, profile_path, deathday } = person || {};
   const { cast=[], crew=[] } = movies || {};
 
-
-  useEffect(() => {
-    if (cast?.length > 0) {
-      const castCopy = [...cast];
-      const knownForOrdered = castCopy?.sort((a,b)=> b.popularity - a.popularity).slice(0,10);
-
-      setMoviesKnownFor(knownForOrdered);
-    }
-  }, [cast]);
+  const age = `(${calculateAge(birthday, deathday)} años)`;
+  const birthdayFormatted = `${dateFormatted(birthday, 'long')} ${!deathday ? age : ''}`;
 
 
   return (
@@ -48,27 +38,54 @@ export const PersonPage = () => {
         }
       })}
     >
-      <Box display="flex" alignItems="flex-start">
+
+     <Box display="flex" alignItems="flex-start">
         <Box>
-          <img src={profile_path ? `https://image.tmdb.org/t/p/w300${profile_path}` : no_img} alt={name} style={{borderRadius: '6px'}} />
-          
-          <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>Año de nacimiento:</Typography>
+          {loadingPerson
+            ? <Skeleton variant="rounded" width={300} height={450} animation="wave" sx={{marginBottom: 1}} />
+            : <img src={profile_path ? `https://image.tmdb.org/t/p/w300${profile_path}` : no_img} alt={name} style={{borderRadius: '6px', maxWidth: 300}} />
+          }
+          <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>
+            {loadingPerson ? <Skeleton variant="text" /> : 'Año de nacimiento:'}
+          </Typography>
           <Typography variant="body1" component="p" gutterBottom>
-            {dateFormatted(birthday, 'long')} {!deathday ? `(${calculateAge(birthday)} años)` : `- ${dateFormatted(deathday)}`}
+            {loadingPerson ? <Skeleton variant="text" /> : birthdayFormatted}
           </Typography>
 
-          <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>Lugar de nacimiento:</Typography>
-          <Typography variant="body1" component="p" gutterBottom>{place_of_birth}</Typography>
+          {deathday &&
+            <>
+              <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}> Año de defunción:</Typography>
+              <Typography variant="body1" component="p" gutterBottom>{dateFormatted(deathday, 'long')} {age}</Typography>
+            </>
+          }
+
+          <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>
+            {loadingPerson ? <Skeleton variant="text" /> : 'Lugar de nacimiento:'}
+          </Typography>
+          <Typography variant="body1" component="p" gutterBottom>
+            {loadingPerson ? <Skeleton variant="text" /> : place_of_birth}
+          </Typography>
         </Box>
-        <Box pl={4} sx={{ overflow: 'hidden'}}>
-          <Typography variant="h4" color="secondary" component="h2" gutterBottom>{name}</Typography>
-          <Typography variant="body1" component="p" gutterBottom sx={{whiteSpace: 'break-spaces'}}>{biography}</Typography>
-          
-          <Typography variant="h6" component="h3" color="secondary">Conocido/a por:</Typography>
-          <KnownForScroller movies={moviesKnownFor} />
+
+        <Box pl={4} sx={{ overflow: 'hidden'/* para scroller */}}>
+          <Typography variant="h4" color="secondary" component="h2" gutterBottom>
+            {loadingPerson ? <Skeleton variant="text" /> : name}
+          </Typography>
+          {loadingPerson
+            ? <Box mb={4}>
+                <Skeleton variant="text" />
+                <Skeleton variant="text" />
+                <Skeleton variant="text" sx={{marginBottom: 1}} />
+                <Skeleton variant="text" />
+                <Skeleton variant="text" />
+                <Skeleton variant="text" />
+              </Box> 
+            : <Typography variant="body1" component="p" gutterBottom sx={{whiteSpace: 'break-spaces'}}>{biography}</Typography>
+          }
+
+          <KnownForScroller cast={cast} loading={loadingMovies} />
         </Box>
       </Box>
-      
     </Container>
   )
 }
