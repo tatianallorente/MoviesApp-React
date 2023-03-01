@@ -31,6 +31,23 @@ export const convertMinsToTime = (mins) => {
 	return `${hours}h ${minutes}mins`;
 }
 
-export const dateFormatted = (date) => {
-	return new Date(date).toLocaleDateString('es-ES');
+export const dateFormatted = (date, dateStyle='') => {
+	// dateStyle: full, long, medium, short
+
+	if (dateStyle !== '') {
+		const options = { dateStyle: dateStyle };
+		return new Date(date).toLocaleDateString('es-ES', options);
+	} else {
+		const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+		return new Date(date).toLocaleDateString('es-ES', options).replaceAll("/", "-");	
+	}
+}
+
+export const calculateAge = (birthday) => {
+	const birthDate = new Date(birthday);
+
+	const milliseconds = Date.now() - birthDate.getTime();
+	const ageDate = new Date(milliseconds); 
+  
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
