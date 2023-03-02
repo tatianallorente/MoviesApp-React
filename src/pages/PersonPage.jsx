@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
 
-import { Box, Container, Skeleton, Typography } from '@mui/material';
+import { Box, Container, Typography, Skeleton } from '@mui/material';
 
 import { URL_REQUIRED_PARAMS } from '../helpers/constants';
 import { useFetch } from '../hooks';
 import no_img from '../assets/img/no_img.png';
 import { calculateAge, dateFormatted } from '../utils/utils';
-import { KnownForScroller } from '../components/personDetails';
+import { KnownForScroller, CreditList } from '../components/personDetails';
 
 
 export const PersonPage = () => {
@@ -34,19 +34,19 @@ export const PersonPage = () => {
         paddingTop: theme.spacing(6),
         paddingBottom: theme.spacing(3),
         [theme.breakpoints.down('xl')]: {
-          padding: theme.spacing(0,8)
+          padding: theme.spacing(4,8)
         }
       })}
     >
 
-     <Box display="flex" alignItems="flex-start">
+      <Box display="flex" alignItems="flex-start">
         <Box>
           {loadingPerson
             ? <Skeleton variant="rounded" width={300} height={450} animation="wave" sx={{marginBottom: 1}} />
             : <img src={profile_path ? `https://image.tmdb.org/t/p/w300${profile_path}` : no_img} alt={name} style={{borderRadius: '6px', maxWidth: 300}} />
           }
           <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>
-            {loadingPerson ? <Skeleton variant="text" /> : 'Año de nacimiento:'}
+            {loadingPerson ? <Skeleton variant="text" /> : 'Fecha de nacimiento:'}
           </Typography>
           <Typography variant="body1" component="p" gutterBottom>
             {loadingPerson ? <Skeleton variant="text" /> : birthdayFormatted}
@@ -54,7 +54,7 @@ export const PersonPage = () => {
 
           {deathday &&
             <>
-              <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}> Año de defunción:</Typography>
+              <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>Fecha de defunción:</Typography>
               <Typography variant="body1" component="p" gutterBottom>{dateFormatted(deathday, 'long')} {age}</Typography>
             </>
           }
@@ -84,6 +84,7 @@ export const PersonPage = () => {
           }
 
           <KnownForScroller cast={cast} loading={loadingMovies} />
+          <CreditList cast={cast} loading={loadingMovies} />
         </Box>
       </Box>
     </Container>
