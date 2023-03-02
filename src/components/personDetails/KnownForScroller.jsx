@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { Box, ImageList, ImageListItem, ImageListItemBar, Skeleton, Typography } from '@mui/material';
@@ -10,6 +10,7 @@ import no_img from '../../assets/img/no_img.png';
 
 export const KnownForScroller = ({ cast, loading }) => {
 
+  const navigate = useNavigate();
   const [moviesKnownFor, setMoviesKnownFor] = useState([]);
 
   useEffect(() => {
@@ -60,23 +61,22 @@ export const KnownForScroller = ({ cast, loading }) => {
                   opacity: .5
                 },
               }}
-            >		
-              <Link to={`/movie/${id}`}>
-                <img
-                  src={poster_path ? `${URL_IMG_POSTER_SMALL}${poster_path}` : no_img}
-                  alt={title}
-                  title={title}
-                  style={{
-                    borderTopLeftRadius: '6px',
-                    borderTopRightRadius: '6px',
-                    width: '125px'
-                  }}
-                />
-                <ImageListItemBar
-                  title={title}
-                  subtitle={character}
-                />
-              </Link>
+              onClick={() => navigate(`/movie/${id}`)}
+            >	
+              <img
+                src={poster_path ? `${URL_IMG_POSTER_SMALL}${poster_path}` : no_img}
+                alt={title}
+                title={title}
+                style={{
+                  borderTopLeftRadius: '6px',
+                  borderTopRightRadius: '6px',
+                  width: '125px'
+                }}
+              />
+              <ImageListItemBar
+                title={title}
+                subtitle={character}
+              />
             </ImageListItem>
           )
         })}
