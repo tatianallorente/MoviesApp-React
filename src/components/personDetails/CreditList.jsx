@@ -29,17 +29,13 @@ export const CreditList = ({ cast, loading }) => {
 	return (
     <Box mt={3}>
       <Typography variant="h6" component="h3" color="secondary">
-        {loading ? <Skeleton variant="text" /> : 'Interpretación:'}
+        {loading ? <Skeleton variant="text" width="20%" /> : 'Interpretación:'}
       </Typography>
 
       <Paper elevation={0} sx={{width: '100%', py: 2, mb: 4}}>
-        {loading &&
-          <>
-            <Skeleton variant="text" sx={{marginBottom: 1}} />
-            <Skeleton variant="text" sx={{marginBottom: 1}} />
-            <Skeleton variant="text" sx={{marginBottom: 1}} />
-          </>
-        }
+        {loading && [47, 40, 45, 48, 51, 49, 42, 50, 38, 43].map(percent =>
+          <Skeleton variant="text" width={`${percent}%`} sx={{marginBottom: 1}} />
+        )}
         {!loading && castGroupedByYear?.map(credit => {
           const { year, character, id, title } = credit;
 

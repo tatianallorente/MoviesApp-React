@@ -46,10 +46,10 @@ export const PersonPage = () => {
             : <img src={profile_path ? `https://image.tmdb.org/t/p/w300${profile_path}` : no_img} alt={name} style={{borderRadius: '6px', maxWidth: 300}} />
           }
           <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>
-            {loadingPerson ? <Skeleton variant="text" /> : 'Fecha de nacimiento:'}
+            {loadingPerson ? <Skeleton variant="text" width="70%" /> : 'Fecha de nacimiento:'}
           </Typography>
           <Typography variant="body1" component="p" gutterBottom>
-            {loadingPerson ? <Skeleton variant="text" /> : birthdayFormatted}
+            {loadingPerson ? <Skeleton variant="text" width="85%" /> : birthdayFormatted}
           </Typography>
 
           {deathday &&
@@ -60,25 +60,22 @@ export const PersonPage = () => {
           }
 
           <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>
-            {loadingPerson ? <Skeleton variant="text" /> : 'Lugar de nacimiento:'}
+            {loadingPerson ? <Skeleton variant="text" width="70%" /> : 'Lugar de nacimiento:'}
           </Typography>
           <Typography variant="body1" component="p" gutterBottom>
-            {loadingPerson ? <Skeleton variant="text" /> : place_of_birth}
+            {loadingPerson ? <Skeleton variant="text" width="85%" /> : place_of_birth}
           </Typography>
         </Box>
 
-        <Box pl={4} sx={{ overflow: 'hidden'/* para scroller */}}>
+        <Box pl={4} sx={{ overflow: 'hidden'/* para scroller */, flexGrow: '1'}}>
           <Typography variant="h4" color="secondary" component="h2" gutterBottom>
-            {loadingPerson ? <Skeleton variant="text" /> : name}
+            {loadingPerson ? <Skeleton variant="text" width="40%" /> : name}
           </Typography>
           {loadingPerson
             ? <Box mb={4}>
-                <Skeleton variant="text" />
-                <Skeleton variant="text" />
-                <Skeleton variant="text" sx={{marginBottom: 1}} />
-                <Skeleton variant="text" />
-                <Skeleton variant="text" />
-                <Skeleton variant="text" />
+              {[100, 90, 85, 99, 92, 75].map((percent, index) =>
+                <Skeleton variant="text" width={`${percent}%`} sx={index === 2 && {marginBottom: 1}} />
+              )}
               </Box> 
             : <Typography variant="body1" component="p" gutterBottom sx={{whiteSpace: 'break-spaces'}}>{biography}</Typography>
           }

@@ -26,13 +26,13 @@ export const KnownForScroller = ({ cast, loading }) => {
 	return (
     <Box mt={2}>
       <Typography variant="h6" component="h3" color="secondary">
-        {loading ? <Skeleton variant="text" /> : 'Conocido/a por:'}
+        {loading ? <Skeleton variant="text" width="25%" /> : 'Conocido/a por:'}
       </Typography>
       <ImageList 
         cols={4}
         gap={16}
         sx={{
-          overflowX: 'scroll',
+          overflowX: loading ? 'hidden' : 'auto',
           marginTop: theme => theme.spacing(1),
           display: 'flex',
           flexWrap: 'nowrap'

@@ -6,29 +6,13 @@ import { SearchFiltersContext } from '../context/SearchFiltersContext';
 import Search from '../components/search/Search';
 import MovieGrid from '../components/MovieGrid';
 import TopMovies from '../components/TopMovies';
-import { URL_DISCOVER_MOVIES, URL_DISCOVER_RATING } from '../helpers/constants';
+import { URL_DISCOVER_RATING, URL_TRENDING_MOVIES } from '../helpers/constants';
 
 
 export const HomePage = () => {
 
   const { searchFilters } = useContext( SearchFiltersContext );
 
-  // FIXME: Cambiar URLS TopMovies
-  
-  // TODO: urlTrending 
-  // `https://api.themoviedb.org/3/trending/movie/week${URL_REQUIRED_PARAMS}`
-
-  // TODO: Ahora en cines
-  // https://api.themoviedb.org/3/movie/now_playing${URL_REQUIRED_PARAMS}&page=1
-
-  // TODO: Get popular
-  // https://api.themoviedb.org/3/movie/popular${URL_REQUIRED_PARAMS}&page=1
-
-  // TODO: Get top rated
-  // https://api.themoviedb.org/3/movie/top_rated${URL_REQUIRED_PARAMS}&page=1
-
-  // TODO: Get upcoming
-  // https://api.themoviedb.org/3/movie/upcoming${URL_REQUIRED_PARAMS}&page=1
 
   return (
     <>
@@ -58,13 +42,13 @@ export const HomePage = () => {
           ? <MovieGrid />
           : <>
               <TopMovies
-                topUrl={URL_DISCOVER_MOVIES}
-                topTitle='Top más populares'
+                topUrl={URL_TRENDING_MOVIES}
+                topTitle="Tendencias esta semana"
               />
 
               <TopMovies
                 topUrl={URL_DISCOVER_RATING}
-                topTitle='Top mejor valoradas'
+                topTitle="Top mejor valoradas"
               />
             </>
         }
