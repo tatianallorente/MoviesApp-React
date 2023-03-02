@@ -74,7 +74,7 @@ export const PersonPage = () => {
           {loadingPerson
             ? <Box mb={4}>
               {[100, 90, 85, 99, 92, 75].map((percent, index) =>
-                <Skeleton variant="text" width={`${percent}%`} sx={index === 2 && {marginBottom: 1}} />
+                <Skeleton variant="text" width={`${percent}%`} sx={index === 2 ? {marginBottom: 1} : {}} key={index} />
               )}
               </Box> 
             : <Typography variant="body1" component="p" gutterBottom sx={{whiteSpace: 'break-spaces'}}>{biography}</Typography>
