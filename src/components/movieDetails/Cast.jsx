@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { Box, Container, Typography, Button, Skeleton } from '@mui/material';
 
 import { useFetch } from "../../hooks";
-import { URL_REQUIRED_PARAMS } from "../../helpers/constants";
+import { URL_REQUIRED_PARAMS, URL_IMG_POSTER_SMALL } from "../../helpers/constants";
 import { ErrorMessage } from "../ui";
 
 
@@ -43,7 +43,7 @@ export const Cast = ({ idMovie }) => {
 
 
 	return (
-    <Box mt={3} mb={3} sx={{color: 'white'}}>
+    <Box mt={3} mb={3}>
       <Typography variant="h6" component="h3" color="secondary">Reparto{showAllActors ? ` (${movieCast?.length})` : ':' }</Typography>
       <Container maxWidth="xl" sx={styles.castContainer}>
         {loadingCast &&
@@ -56,7 +56,7 @@ export const Cast = ({ idMovie }) => {
             <Link to={`/person/${cast.id}`} style={{color: 'unset', textDecoration: 'none'}}>
               <Box
                 component="img"
-                src={`https://image.tmdb.org/t/p/w185${cast.profile_path}`}
+                src={`${URL_IMG_POSTER_SMALL}${cast.profile_path}`}
                 alt={cast.name}
                 sx={{
                   maxWidth: '100%',
