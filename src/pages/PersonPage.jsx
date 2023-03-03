@@ -7,6 +7,7 @@ import { useFetch } from '../hooks';
 import no_img from '../assets/img/no_img.png';
 import { calculateAge, dateFormatted } from '../utils/utils';
 import { KnownForScroller, CreditList } from '../components/personDetails';
+import { ErrorMessage } from '../components/ui';
 
 
 export const PersonPage = () => {
@@ -38,52 +39,54 @@ export const PersonPage = () => {
         }
       })}
     >
+      {errorPerson === null
+        ? <Box display="flex" alignItems="flex-start">
+            <Box>
+              {loadingPerson
+                ? <Skeleton variant="rounded" width={300} height={450} animation="wave" sx={{marginBottom: 1}} />
+                : <img src={profile_path ? `https://image.tmdb.org/t/p/w300${profile_path}` : no_img} alt={name} style={{borderRadius: '6px', maxWidth: 300}} />
+              }
+              <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>
+                {loadingPerson ? <Skeleton variant="text" width="70%" /> : 'Fecha de nacimiento:'}
+              </Typography>
+              <Typography variant="body1" component="p" gutterBottom>
+                {loadingPerson ? <Skeleton variant="text" width="85%" /> : birthdayFormatted}
+              </Typography>
 
-      <Box display="flex" alignItems="flex-start">
-        <Box>
-          {loadingPerson
-            ? <Skeleton variant="rounded" width={300} height={450} animation="wave" sx={{marginBottom: 1}} />
-            : <img src={profile_path ? `https://image.tmdb.org/t/p/w300${profile_path}` : no_img} alt={name} style={{borderRadius: '6px', maxWidth: 300}} />
-          }
-          <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>
-            {loadingPerson ? <Skeleton variant="text" width="70%" /> : 'Fecha de nacimiento:'}
-          </Typography>
-          <Typography variant="body1" component="p" gutterBottom>
-            {loadingPerson ? <Skeleton variant="text" width="85%" /> : birthdayFormatted}
-          </Typography>
+              {deathday &&
+                <>
+                  <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>Fecha de defunción:</Typography>
+                  <Typography variant="body1" component="p" gutterBottom>{dateFormatted(deathday, 'long')} {age}</Typography>
+                </>
+              }
 
-          {deathday &&
-            <>
-              <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>Fecha de defunción:</Typography>
-              <Typography variant="body1" component="p" gutterBottom>{dateFormatted(deathday, 'long')} {age}</Typography>
-            </>
-          }
+              <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>
+                {loadingPerson ? <Skeleton variant="text" width="70%" /> : 'Lugar de nacimiento:'}
+              </Typography>
+              <Typography variant="body1" component="p" gutterBottom>
+                {loadingPerson ? <Skeleton variant="text" width="85%" /> : place_of_birth}
+              </Typography>
+            </Box>
 
-          <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>
-            {loadingPerson ? <Skeleton variant="text" width="70%" /> : 'Lugar de nacimiento:'}
-          </Typography>
-          <Typography variant="body1" component="p" gutterBottom>
-            {loadingPerson ? <Skeleton variant="text" width="85%" /> : place_of_birth}
-          </Typography>
-        </Box>
+            <Box pl={4} sx={{ overflow: 'hidden'/* para scroller */, flexGrow: '1'}}>
+              <Typography variant="h4" color="secondary" component="h2" gutterBottom>
+                {loadingPerson ? <Skeleton variant="text" width="40%" /> : name}
+              </Typography>
+              {loadingPerson
+                ? <Box mb={4}>
+                  {[100, 90, 85, 99, 92, 75].map((percent, index) =>
+                    <Skeleton variant="text" width={`${percent}%`} sx={index === 2 ? {marginBottom: 1} : {}} key={index} />
+                  )}
+                  </Box>
+                : <Typography variant="body1" component="p" gutterBottom sx={{whiteSpace: 'break-spaces'}}>{biography}</Typography>
+              }
 
-        <Box pl={4} sx={{ overflow: 'hidden'/* para scroller */, flexGrow: '1'}}>
-          <Typography variant="h4" color="secondary" component="h2" gutterBottom>
-            {loadingPerson ? <Skeleton variant="text" width="40%" /> : name}
-          </Typography>
-          {loadingPerson
-            ? <Box mb={4}>
-              {[100, 90, 85, 99, 92, 75].map((percent, index) =>
-                <Skeleton variant="text" width={`${percent}%`} sx={index === 2 ? {marginBottom: 1} : {}} key={index} />
-              )}
-              </Box> 
-            : <Typography variant="body1" component="p" gutterBottom sx={{whiteSpace: 'break-spaces'}}>{biography}</Typography>
-          }
-
-          <KnownForScroller cast={cast} loading={loadingMovies} />
-          <CreditList cast={cast} loading={loadingMovies} />
-        </Box>
-      </Box>
+              <KnownForScroller cast={cast} loading={loadingMovies} />
+              <CreditList cast={cast} loading={loadingMovies} />
+            </Box>
+          </Box>
+        : <ErrorMessage />
+      }
     </Container>
   )
 }
