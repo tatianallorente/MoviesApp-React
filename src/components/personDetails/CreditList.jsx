@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import { Box, Chip, Paper, Typography, Skeleton, Tooltip } from '@mui/material';
+import { Box, Chip, Paper, Typography, Skeleton, Tooltip, Divider } from '@mui/material';
 
 import { URL_IMG_POSTER_SMALL } from "../../helpers/constants";
 
@@ -10,14 +10,13 @@ import { URL_IMG_POSTER_SMALL } from "../../helpers/constants";
 export const CreditList = ({ cast, loading }) => {
 
   const [ castGroupedByYear, setCastGroupedByYear ] = useState([]);
-  
-  
+
+
   useEffect(() => {
     if (cast?.length > 0) {
       const castWithYear = cast.map(credit => {
-        const date = credit.release_date.split('-');
-        const year = date[0];
-        
+        const [ year ] = credit.release_date.split('-');
+
         return {...credit, year};
       });
 
@@ -26,7 +25,7 @@ export const CreditList = ({ cast, loading }) => {
       setCastGroupedByYear(castWithYearSorted);
     }
   }, [cast])
-  
+
 
 	return (
     <Box mt={3}>
@@ -38,8 +37,9 @@ export const CreditList = ({ cast, loading }) => {
         {loading && [47, 40, 45, 48, 51, 49, 42, 50, 38, 43].map((percent, index) =>
           <Skeleton variant="text" width={`${percent}%`} sx={{marginBottom: 1}} key={index} />
         )}
-        {!loading && castGroupedByYear?.map(credit => {
+        {!loading && castGroupedByYear?.map((credit, index) => {
           const { year, character, id, title, poster_path, overview } = credit;
+          const showDivider = castGroupedByYear[index+1] && year !== castGroupedByYear[index+1]?.year;
 
           return (
             <Box key={id} mb={1.5}>
@@ -91,12 +91,13 @@ export const CreditList = ({ cast, loading }) => {
                   <Link to={`/movie/${id}`}>{title}</Link>
                 </Typography>
               </Tooltip>
-              {character && 
+              {character &&
                 <>
                   <Typography component="span" sx={{color: '#aaa'}}> como </Typography>
                   <Typography component="span">{character}</Typography>
                 </>
               }
+              {showDivider && <Divider sx={{marginTop: 1.5}} />}
             </Box>
           );
         })}
