@@ -6,7 +6,7 @@ import { useFetch } from '../hooks';
 import no_img from '../assets/img/no_img.png';
 import { URL_IMG_BACKDROP, URL_IMG_POSTER, URL_REQUIRED_PARAMS } from '../helpers/constants';
 import { convertMinsToTime, dateFormatted } from '../utils/utils';
-import { Cast, Genres, Ratings, TitleAndOverview, WatchProviders } from '../components/movieDetails';
+import { Cast, Genres, Ratings, TitleAndOverview, WatchProviders, Recommendations, TrailersAndMedia } from '../components/movieDetails';
 import { ErrorMessage } from "../components/ui";
 
 
@@ -28,7 +28,7 @@ export const MovieDetailsPage = ( ) => {
 	const styles = {
 		paper: {
 			backgroundImage: `url(${backdrop_path ? background_url : ''})`,
-			backgroundSize: 'cover', 
+			backgroundSize: 'cover',
 			backgroundPosition: 'center',
 			backgroundRepeat: 'no-repeat',
 			boxShadow: 'none',
@@ -47,7 +47,7 @@ export const MovieDetailsPage = ( ) => {
 		}
 	};
 
-	
+
 	// TODO: Reviews
 	// const url_reviews = `https://api.themoviedb.org/3/movie/${id}/reviews${URL_REQUIRED_PARAMS}`;
 
@@ -60,7 +60,7 @@ export const MovieDetailsPage = ( ) => {
 						? <Skeleton variant="rounded" height={700} animation="wave" />
 						:	Object.keys(movieDetails)?.length > 0 && errorMovieDetails === null
 							? <Box display="flex" sx={{backgroundColor: 'rgba(0, 0, 0, .7)', borderRadius: '6px'}}>
-									<Box component="img" src={poster_path ? img_url : no_img} alt={title} sx={styles.poster} />									
+									<Box component="img" src={poster_path ? img_url : no_img} alt={title} sx={styles.poster} />
 									<Box sx={{padding: theme.spacing(4), color: 'white', width: '100%'}}>
 										<TitleAndOverview movieDetails={movieDetails} />
 										<Box display="flex" justifyContent="space-evenly" alignItems="center" mt={2}>
@@ -89,10 +89,12 @@ export const MovieDetailsPage = ( ) => {
 							: <ErrorMessage />
 					}
 				</Container>
-			</Paper> 
-				
+			</Paper>
+
 			<Container maxWidth="xl">
 				<Cast idMovie={idMovie} />
+				<TrailersAndMedia idMovie={idMovie} />
+				<Recommendations idMovie={idMovie} />
 			</Container>
 		</>
 	)
