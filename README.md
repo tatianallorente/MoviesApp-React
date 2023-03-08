@@ -25,8 +25,4 @@
 # Instalaciones necesarias
 
     npm install @mui/material @emotion/react @emotion/styled
-<<<<<<< HEAD
     npm install @mui/icons-material
-=======
-    npm install @mui/icons-material
->>>>>>> refs/rewritten/Updated-packages-to-install
