@@ -4,6 +4,7 @@ export const URL_REQUIRED_PARAMS = `?language=es-ES&api_key=${API_KEY}`;
 
 export const URL_IMG_BACKDROP = 'https://image.tmdb.org/t/p/original';
 export const URL_IMG_POSTER = 'https://image.tmdb.org/t/p/w500';
+export const URL_IMG_POSTER_MEDIUM = 'https://image.tmdb.org/t/p/w300';
 export const URL_IMG_POSTER_SMALL = 'https://image.tmdb.org/t/p/w185';
 
 export const URL_GENRES = `https://api.themoviedb.org/3/genre/movie/list${URL_REQUIRED_PARAMS}`;

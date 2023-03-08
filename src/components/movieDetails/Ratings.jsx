@@ -46,7 +46,7 @@ export const Ratings = ({imdb_id, vote_average, vote_count}) => {
     },
   };
 
-  
+
 	return (
     <>
       <Typography variant="h6" component="h3" color="secondary">Puntuación:</Typography>
@@ -56,7 +56,7 @@ export const Ratings = ({imdb_id, vote_average, vote_count}) => {
             name="TMDB"
             value={(parseFloat(vote_average)*5)/10}
             titleSource="TMDB"
-            titleValue={`${parseFloat(vote_average).toFixed(2)} de ${vote_count} votos`}
+            titleValue={vote_count ? `${parseFloat(vote_average).toFixed(2)} de ${vote_count} votos` : vote_average}
           />
         </Box>
         {loadingRatings && <Box component="li"><CircularProgress color="secondary" /></Box> }
@@ -80,7 +80,7 @@ export const Ratings = ({imdb_id, vote_average, vote_count}) => {
 }
 
 Ratings.propTypes = {
-  imdb_id: PropTypes.string.isRequired,
+  imdb_id: PropTypes.string,
   vote_average: PropTypes.number.isRequired,
-  vote_count: PropTypes.number.isRequired,
+  vote_count: PropTypes.number,
 }

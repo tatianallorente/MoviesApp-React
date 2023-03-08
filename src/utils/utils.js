@@ -1,6 +1,6 @@
 // Array de años
-export const years = () => {  
-	let yearCurrent = new Date().getFullYear(); 
+export const years = () => {
+	let yearCurrent = new Date().getFullYear();
 	let yearStart = 1940;
 
 	return Array(yearCurrent - yearStart)
@@ -12,7 +12,7 @@ export const years = () => {
 export const ratingNumbers = [1,2,3,4,5,6,7,8,9];
 
 // Default: popularity.desc
-export const sortBy =  
+export const sortBy =
 	[
 		{index: 'Popularidad DESC', value: 'popularity.desc'},
 		{index: 'Popularidad ASC', value: 'popularity.asc'},
@@ -39,7 +39,7 @@ export const dateFormatted = (date, dateStyle='') => {
 		return new Date(date).toLocaleDateString('es-ES', options);
 	} else {
 		const options = { year: "numeric", month: "2-digit", day: "2-digit" };
-		return new Date(date).toLocaleDateString('es-ES', options).replaceAll("/", "-");	
+		return new Date(date).toLocaleDateString('es-ES', options).replaceAll("/", "-");
 	}
 }
 
@@ -48,7 +48,13 @@ export const calculateAge = (birthday, deathday='') => {
 	const currentDate = deathday ? new Date(deathday) : Date.now();
 
 	const milliseconds = currentDate - birthDate.getTime();
-	const ageDate = new Date(milliseconds); 
-  
+	const ageDate = new Date(milliseconds);
+
   return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
+
+export const getGenresByIds = (genresIds) => {
+	const genresSaved = JSON.parse(localStorage.getItem("moviesGenres")) || [];
+
+	return genresSaved.filter(genre => genresIds.includes(genre.id) === true);
 }

@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 
 import { Box, Container, Typography, Skeleton } from '@mui/material';
 
-import { URL_REQUIRED_PARAMS } from '../helpers/constants';
+import { URL_IMG_POSTER_MEDIUM, URL_REQUIRED_PARAMS } from '../helpers/constants';
 import { useFetch } from '../hooks';
 import no_img from '../assets/img/no_img.png';
 import { calculateAge, dateFormatted } from '../utils/utils';
@@ -44,7 +44,7 @@ export const PersonPage = () => {
             <Box>
               {loadingPerson
                 ? <Skeleton variant="rounded" width={300} height={450} animation="wave" sx={{marginBottom: 1}} />
-                : <img src={profile_path ? `https://image.tmdb.org/t/p/w300${profile_path}` : no_img} alt={name} style={{borderRadius: '6px', maxWidth: 300}} />
+                : <img src={profile_path ? `${URL_IMG_POSTER_MEDIUM}${profile_path}` : no_img} alt={name} style={{borderRadius: '6px', maxWidth: 300}} />
               }
               <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>
                 {loadingPerson ? <Skeleton variant="text" width="70%" /> : 'Fecha de nacimiento:'}
