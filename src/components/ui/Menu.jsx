@@ -49,6 +49,10 @@ export const Menu = ({themeMode, setTheme}) => {
 								maxHeight: '3rem',
 								[theme.breakpoints.down('md')]: {
 									maxHeight: '2rem',
+									marginLeft: 0,
+								},
+								[theme.breakpoints.down('sm')]: {
+									maxHeight: '1rem',
 								},
 							})}
 						/>

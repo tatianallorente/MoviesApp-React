@@ -88,7 +88,7 @@ const ModalMovieDetails = ({ idMovie, handleClose, open }) => {
 													<Typography variant="h6" component="p" sx={{fontSize: '1rem'}}>Fecha de estreno:</Typography>
 													<Typography variant="h6" component="h3" color="primary.light"> {dateFormatted(release_date)}</Typography>
 												</div>
-												{runtime &&
+												{runtime > 0 &&
 													<div>
 														<Typography variant="h6" component="p" sx={{fontSize: '1rem'}}>Duración:</Typography>
 														<Typography variant="h6" component="h3" color="primary.light"> {convertMinsToTime(runtime)}</Typography>

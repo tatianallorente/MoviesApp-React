@@ -24,12 +24,12 @@ const TopMovies = ({topUrl, topTitle}) => {
         {topTitle}
       </Typography>
 
-      {loading && 
+      {loading &&
         <Skeleton variant="rectangular" height={200} animation="wave" />
       }
 
-      {topMovies?.length > 0 && 
-        <ImageList 
+      {topMovies?.length > 0 &&
+        <ImageList
           cols={4}
           gap={0}
           sx={{
@@ -41,7 +41,7 @@ const TopMovies = ({topUrl, topTitle}) => {
         >
           {topMovies.slice(0, 10).map(movie => (
             <ImageListItem
-              key={movie.id} 
+              key={movie.id}
               sx={{
                 cursor: 'pointer',
                 '&:hover': {
@@ -60,9 +60,17 @@ const TopMovies = ({topUrl, topTitle}) => {
                   background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
                 }}
                 actionIcon={
-                  <IconButton aria-label={`star ${movie.title}`} color="secondary">
+                  <IconButton
+                    aria-label={`star ${movie.title}`}
+                    color="secondary"
+                    sx={(theme) => ({
+                      [theme.breakpoints.down('sm')]: {
+                        display: 'none'
+                      },
+                    })}
+                  >
                     <StarIcon color="secondary"/>
-                    <Typography variant="h6" component="span">{movie.vote_average}</Typography>
+                    <Typography variant="h6" component="span">{(movie.vote_average).toFixed(1)}</Typography>
                   </IconButton>
                 }
               />
@@ -71,8 +79,8 @@ const TopMovies = ({topUrl, topTitle}) => {
         </ImageList>
       }
 
-      
-      {open &&  
+
+      {open &&
         <ModalMovieDetails
           idMovie={currentMovie}
           handleClose={toggleModal}
@@ -81,7 +89,6 @@ const TopMovies = ({topUrl, topTitle}) => {
       }
     </Box>
   )
-    
 
 }
 

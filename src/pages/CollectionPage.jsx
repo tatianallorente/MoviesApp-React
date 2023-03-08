@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { Container, Box, Typography, Paper, Skeleton, useTheme, Card, CardContent, CardMedia, Button, CardActions } from '@mui/material';
+import { Container, Box, Typography, Paper, Skeleton, useTheme, Card, CardContent, CardMedia, Button, CardActions, useMediaQuery } from '@mui/material';
 
 import { useFetch } from '../hooks';
 import no_img from '../assets/img/no_img.png';
-import { URL_IMG_BACKDROP, URL_IMG_POSTER_SMALL, URL_IMG_POSTER_MEDIUM, URL_REQUIRED_PARAMS } from '../helpers/constants';
+import { URL_IMG_BACKDROP, URL_IMG_POSTER_SMALL, URL_IMG_POSTER_MEDIUM, URL_IMG_POSTER, URL_REQUIRED_PARAMS } from '../helpers/constants';
 import { dateFormatted, getGenresByIds } from '../utils/utils';
 import { Genres, Ratings, TitleAndOverview } from '../components/movieDetails';
 import { ErrorMessage } from "../components/ui";
@@ -14,6 +14,7 @@ import { ErrorMessage } from "../components/ui";
 export const CollectionPage = () => {
 
   const theme = useTheme();
+	const breakpointDownSm = useMediaQuery(theme.breakpoints.down('sm'));
 
 	const { collectionID:collectionId } = useParams();
 
@@ -122,12 +123,29 @@ export const CollectionPage = () => {
               <Skeleton variant="rounded" height={225} animation="wave" key={index} sx={{marginBottom: 3}} />
             )
           : parts?.map(movie => (
-              <Card sx={{ display: 'flex', marginBottom: 3 }} key={movie.id}>
+              <Card
+                key={movie.id}
+                sx={{
+                  marginBottom: 3,
+                  [theme.breakpoints.up('sm')]: {
+                    display: 'flex',
+                  },
+                }}
+              >
                 <CardMedia
                   component="img"
-                  sx={{ width: 'max-content' }}
-                  image={`${URL_IMG_POSTER_SMALL}${movie.poster_path}`}
+                  image={
+                    breakpointDownSm
+                      ? `${URL_IMG_POSTER}${movie.backdrop_path}`
+                      : `${URL_IMG_POSTER_SMALL}${movie.poster_path}`
+                  }
                   alt={movie.title}
+                  sx={{
+                    [theme.breakpoints.up('sm')]: {
+                      width: 'max-content',
+                      display: 'flex',
+                    },
+                  }}
                 />
                 <Box>
                 <CardContent>
