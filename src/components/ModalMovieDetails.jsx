@@ -27,17 +27,14 @@ const ModalMovieDetails = ({ idMovie, handleClose, open }) => {
 
   const { data:movieDetails, loading:loadingMovieDetails } = useFetch(urlDetails);
 	const { title, backdrop_path, poster_path, genres, vote_average, vote_count, release_date, runtime, imdb_id } = movieDetails || {};
-	
+
 	// Imágenes
 	const background_url = `${URL_IMG_BACKDROP}${backdrop_path}`;
 	const img_url = `${URL_IMG_POSTER}${poster_path}`;
 
 	const styles = {
     dialog: {
-			//display: 'flex',
-			//alignItems: 'center',
-			//justifyContent: 'center',
-			backgroundSize: 'cover', 
+			backgroundSize: 'cover',
 			backgroundPosition: 'center',
 			backgroundRepeat: 'no-repeat'
     },
@@ -45,7 +42,6 @@ const ModalMovieDetails = ({ idMovie, handleClose, open }) => {
 			display: 'flex',
 			flexDirection: 'column',
 			color: '#fff',
-			//outline: 0,
 			padding: '0px !important',
     },
 	};
@@ -58,8 +54,8 @@ const ModalMovieDetails = ({ idMovie, handleClose, open }) => {
 					sx={styles.dialog}
 					style={{
 						backgroundImage: matches ? `url(${img_url})` : `url(${background_url})`,backgroundColor: 'rgba(39, 77, 171, .3)'
-					}}   
-					maxWidth='lg' 
+					}}
+					maxWidth='lg'
 					TransitionComponent={Transition}
 					PaperProps={{
 						style: {
@@ -75,7 +71,7 @@ const ModalMovieDetails = ({ idMovie, handleClose, open }) => {
 					}}
 				>
 					<DialogContent sx={styles.dialogContent}>
-						<Box display="flex">      
+						<Box display="flex">
 							{!matches &&
 								<img src={poster_path ? img_url : no_img} alt={title} style={{maxWidth: '50%', objectFit: 'cover'}} />
 							}
@@ -110,7 +106,7 @@ const ModalMovieDetails = ({ idMovie, handleClose, open }) => {
 										</>
 									}
 								</Box>
-								<Button variant="outlined" color="secondary" fullWidth size="small" sx={{mt: 2}}>
+								<Button variant="outlined" color="secondary" fullWidth size="small" sx={{mt: 2}} onClick={handleClose}>
 									<Link to={`/movie/${idMovie}`} style={{color: 'unset', textDecoration: 'none', width: '100%'}}>
 										Ver detalles
 									</Link>

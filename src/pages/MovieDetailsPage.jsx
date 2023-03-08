@@ -6,7 +6,7 @@ import { useFetch } from '../hooks';
 import no_img from '../assets/img/no_img.png';
 import { URL_IMG_BACKDROP, URL_IMG_POSTER, URL_REQUIRED_PARAMS } from '../helpers/constants';
 import { convertMinsToTime, dateFormatted } from '../utils/utils';
-import { Cast, Genres, Ratings, TitleAndOverview, WatchProviders, Recommendations, TrailersAndMedia } from '../components/movieDetails';
+import { Cast, Genres, Ratings, TitleAndOverview, WatchProviders, Recommendations, TrailersAndMedia, Collection } from '../components/movieDetails';
 import { ErrorMessage } from "../components/ui";
 
 
@@ -19,7 +19,7 @@ export const MovieDetailsPage = ( ) => {
 	const urlDetails = `https://api.themoviedb.org/3/movie/${idMovie}${URL_REQUIRED_PARAMS}`;
   const { data:movieDetails={}, loading:loadingMovieDetails, error: errorMovieDetails } = useFetch(urlDetails);
 
-	const { title, backdrop_path, poster_path, genres, vote_average, vote_count, release_date, runtime, imdb_id } = movieDetails || {};
+	const { title, backdrop_path, poster_path, genres, vote_average, vote_count, release_date, runtime, imdb_id, belongs_to_collection={} } = movieDetails || {};
 
 	// Imágenes
 	const background_url = `${URL_IMG_BACKDROP}${backdrop_path}`;
@@ -94,6 +94,9 @@ export const MovieDetailsPage = ( ) => {
 			<Container maxWidth="xl">
 				<Cast idMovie={idMovie} />
 				<TrailersAndMedia idMovie={idMovie} />
+				{belongs_to_collection && Object.keys(belongs_to_collection)?.length > 0 &&
+					<Collection belongsToCollection={belongs_to_collection} />
+				}
 				<Recommendations idMovie={idMovie} />
 			</Container>
 		</>
