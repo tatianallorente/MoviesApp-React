@@ -7,7 +7,7 @@ import './assets/styles.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter basename="/MoviesApp-React">
+    <BrowserRouter>
       <App />
     </BrowserRouter>
   </React.StrictMode>,
