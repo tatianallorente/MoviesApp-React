@@ -6,7 +6,7 @@ import SearchOffIcon from '@mui/icons-material/SearchOff';
 import { SearchFiltersContext } from "../../context/SearchFiltersContext";
 import { useForm } from '../../hooks';
 import { URL_GENRES } from "../../helpers/constants";
-import TitleSearch from "./titleSearch";
+import TitleSearch from "./TitleSearch";
 import AdvancedSearch from "./AdvancedSearch";
 
 
@@ -26,7 +26,7 @@ const Search = () => {
     orderByForm: 'popularity.desc'
   } );
 
-  
+
   useEffect(() => {
     // Get genres to fill select
     fetch( URL_GENRES )
@@ -53,7 +53,7 @@ const Search = () => {
     setSearchFilters({});
     resetForm();
   }
-  
+
   // TODO: Buscador de titulo puede ser: Buscar por título o persona (en general, actriz, director, camaras, etc)
   // Devolver todo lo que devuelva la busqueda por categoria
 
@@ -64,7 +64,7 @@ const Search = () => {
     <Container maxWidth="md">
       <Box component="form" autoComplete="off" onSubmit={searchMovies} p={theme => theme.spacing(3,0)}>
         <Box>
-          <Tabs variant="fullWidth" value={tabValue} onChange={changeTabValue} 
+          <Tabs variant="fullWidth" value={tabValue} onChange={changeTabValue}
             sx={{
               '& .MuiTab-root': {
                 textTransform: 'unset',
