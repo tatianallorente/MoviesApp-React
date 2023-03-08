@@ -32,9 +32,26 @@ export const Menu = ({themeMode, setTheme}) => {
 	return (
 		<AppBar position="static" elevation={0} enableColorOnDark={true}>
 			<Toolbar sx={{justifyContent: 'space-between'}}>
-				<Typography component="h1" variant="h4">Movies App</Typography>
+				<Typography
+					component="h1"
+					variant="h4"
+					sx={(theme) => ({
+						[theme.breakpoints.down('md')]: {
+							display: 'none',
+						},
+					})}
+					>
+						Movies App
+					</Typography>
 					<Link to="/" style={{display:'contents'}} onClick={() => setSearchFilters({})}>
-						<Box component="img" src={tmdb_logo} alt={tmdb_logo} sx={{maxHeight: '3rem'}} ml={2} mr={2} />
+						<Box component="img" src={tmdb_logo} alt={tmdb_logo} ml={2} mr={2}
+							sx={(theme) => ({
+								maxHeight: '3rem',
+								[theme.breakpoints.down('md')]: {
+									maxHeight: '2rem',
+								},
+							})}
+						/>
 					</Link>
 					<Button
 						variant="outlined"

@@ -34,41 +34,55 @@ export const PersonPage = () => {
         //marginTop: theme.spacing(6),
         paddingTop: theme.spacing(6),
         paddingBottom: theme.spacing(3),
-        [theme.breakpoints.down('xl')]: {
-          padding: theme.spacing(4,8)
-        }
       })}
     >
       {errorPerson === null
-        ? <Box display="flex" alignItems="flex-start">
-            <Box>
+        ? <Box display="flex" alignItems="flex-start"
+            sx={(theme) => ({
+              [theme.breakpoints.down('md')]: {
+                flexDirection: 'column',
+              },
+            })}
+          >
+            <Box
+              sx={(theme) => ({
+                [theme.breakpoints.down('md')]: {
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  
+                  paddingBottom: 4,
+                },
+              })}
+            >
               {loadingPerson
                 ? <Skeleton variant="rounded" width={300} height={450} animation="wave" sx={{marginBottom: 1}} />
-                : <img src={profile_path ? `${URL_IMG_POSTER_MEDIUM}${profile_path}` : no_img} alt={name} style={{borderRadius: '6px', maxWidth: 300}} />
+                : <Box component="img" src={profile_path ? `${URL_IMG_POSTER_MEDIUM}${profile_path}` : no_img} alt={name} sx={{borderRadius: '6px', maxWidth: 300, paddingRight: 4}} />
               }
-              <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>
-                {loadingPerson ? <Skeleton variant="text" width="70%" /> : 'Fecha de nacimiento:'}
-              </Typography>
-              <Typography variant="body1" component="p" gutterBottom>
-                {loadingPerson ? <Skeleton variant="text" width="85%" /> : birthdayFormatted}
-              </Typography>
+              <Box>
+                <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>
+                  {loadingPerson ? <Skeleton variant="text" width="70%" /> : 'Fecha de nacimiento:'}
+                </Typography>
+                <Typography variant="body1" component="p" gutterBottom>
+                  {loadingPerson ? <Skeleton variant="text" width="85%" /> : birthdayFormatted}
+                </Typography>
 
-              {deathday &&
-                <>
-                  <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>Fecha de defunción:</Typography>
-                  <Typography variant="body1" component="p" gutterBottom>{dateFormatted(deathday, 'long')} {age}</Typography>
-                </>
-              }
+                {deathday &&
+                  <>
+                    <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>Fecha de defunción:</Typography>
+                    <Typography variant="body1" component="p" gutterBottom>{dateFormatted(deathday, 'long')} {age}</Typography>
+                  </>
+                }
 
-              <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>
-                {loadingPerson ? <Skeleton variant="text" width="70%" /> : 'Lugar de nacimiento:'}
-              </Typography>
-              <Typography variant="body1" component="p" gutterBottom>
-                {loadingPerson ? <Skeleton variant="text" width="85%" /> : place_of_birth}
-              </Typography>
+                <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>
+                  {loadingPerson ? <Skeleton variant="text" width="70%" /> : 'Lugar de nacimiento:'}
+                </Typography>
+                <Typography variant="body1" component="p" gutterBottom>
+                  {loadingPerson ? <Skeleton variant="text" width="85%" /> : place_of_birth}
+                </Typography>
+              </Box>
             </Box>
 
-            <Box pl={4} sx={{ overflow: 'hidden'/* para scroller */, flexGrow: '1'}}>
+            <Box sx={{flexGrow: '1', overflow: 'hidden',/* para scroller */}}>
               <Typography variant="h4" color="secondary" component="h2" gutterBottom>
                 {loadingPerson ? <Skeleton variant="text" width="40%" /> : name}
               </Typography>

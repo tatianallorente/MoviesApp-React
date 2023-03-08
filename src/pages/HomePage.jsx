@@ -30,14 +30,7 @@ export const HomePage = () => {
         <Search />
       </Box>
 
-      <Container
-        maxWidth="xl"
-        sx={(theme) => ({
-          [theme.breakpoints.down('xl')]: {
-            padding: theme => theme.spacing(0,8)
-          }
-        })}
-      >
+      <Container maxWidth="xl">
         {Object.keys(searchFilters).length > 0
           ? <MovieGrid />
           : <>

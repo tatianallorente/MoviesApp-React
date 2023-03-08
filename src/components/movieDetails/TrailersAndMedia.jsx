@@ -72,20 +72,14 @@ export const TrailersAndMedia = ({ idMovie }) => {
       {loadingVideos || loadingImages
         ? <Skeleton variant="rounded" height={225} animation="wave" />
         : <>
-            <Tabs variant="fullWidth" value={tabValue} onChange={changeTabValue}
-              sx={{
-                '& .MuiTab-root': {
-                  textTransform: 'unset',
-                  fontSize: '1.25rem',
-                  fontFamily: 'Merienda, sans-serif'
-                }
-              }}
-            >
-              <Tab label={`Tráilers (${trailers?.length})`} id="simple-tab-0" />
-              <Tab label={`Clips (${clips?.length})`} id="simple-tab-1" />
-              <Tab label={`Imágenes de fondo (${backdrops?.length})`} id="simple-tab-2" />
-              <Tab label={`Pósters (${posters?.length})`} id="simple-tab-3" />
-            </Tabs>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Tabs variant="fullWidth" value={tabValue} onChange={changeTabValue}>
+                <Tab label={`Tráilers (${trailers?.length})`} id="simple-tab-0" />
+                <Tab label={`Clips (${clips?.length})`} id="simple-tab-1" />
+                <Tab label={`Imágenes de fondo (${backdrops?.length})`} id="simple-tab-2" />
+                <Tab label={`Pósters (${posters?.length})`} id="simple-tab-3" />
+              </Tabs>
+            </Box>
 
             <TabPanel value={tabValue} index={0}>
               {trailers?.length > 0 && errorVideos === null

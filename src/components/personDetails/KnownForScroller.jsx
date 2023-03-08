@@ -24,11 +24,18 @@ export const KnownForScroller = ({ cast, loading }) => {
 
 
 	return (
-    <Box mt={2}>
+    <Box
+      mt={2}
+      sx={(theme) => ({
+        [theme.breakpoints.down('md')]: {
+          display: 'none',
+        },
+      })}
+    >
       <Typography variant="h6" component="h3" color="secondary">
         {loading ? <Skeleton variant="text" width="25%" /> : 'Conocido/a por:'}
       </Typography>
-      <ImageList 
+      <ImageList
         cols={4}
         gap={16}
         sx={{
@@ -39,8 +46,8 @@ export const KnownForScroller = ({ cast, loading }) => {
         }}
       >
         {loading &&
-          [...Array(10).keys()].map((index) => 
-            <ImageListItem key={index}>		
+          [...Array(10).keys()].map((index) =>
+            <ImageListItem key={index}>
               <Skeleton variant="rounded" height={200} width={125} animation="wave" key={index} />
             </ImageListItem>
           )
@@ -62,7 +69,7 @@ export const KnownForScroller = ({ cast, loading }) => {
                 },
               }}
               onClick={() => navigate(`/movie/${id}`)}
-            >	
+            >
               <img
                 src={poster_path ? `${URL_IMG_POSTER_SMALL}${poster_path}` : no_img}
                 alt={title}
