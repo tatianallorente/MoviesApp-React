@@ -1,7 +1,6 @@
 # Movies App
 
 >Aplicación para buscar películas usando la API de The Movie Database.\
-
 > Demo: https://tatianallorente-moviesapp-react.netlify.app
 ---
 # Tecnologías usadas
