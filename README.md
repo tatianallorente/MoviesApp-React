@@ -1,8 +1,8 @@
 # Movies App
 
 >Aplicación para buscar películas usando la API de The Movie Database.\
-> ***Aplicación no terminada***\
-> Demo: https://tatianallorente.github.io/MoviesApp-React/
+
+> Demo: https://tatianallorente-moviesapp-react.netlify.app
 ---
 # Tecnologías usadas
 
@@ -17,12 +17,25 @@
 - ![Visual Studio Code](https://img.shields.io/badge/-007ACC?style=flat&logo=visual-studio-code&logoColor=white) Visual Studio Code
 - ![Postman](https://img.shields.io/badge/-FF6C37?style=flat&logo=Postman&logoColor=white) Postman
 - ![GitHub](https://img.shields.io/badge/-181717?style=flat&logo=GitHub&logoColor=white) Github
+- ![Netlify](https://img.shields.io/badge/-05BDBA?style=flat&logo=netlify&logoColor=white) Netlify
 
 # Funcionalidades
 
-- Pendiente de terminar la aplicación
+- Buscador de películas
+    - Buscar por título.
+    - Buscar por filtros avanzados (Descubrir películas buscando por género, año, actor, etc).
+
+- Página de detalles de la película
+    - Hacer click en un actor/actriz te lleva a su página de detalles.
+    - Ver colección (si la hay) te lleva a una nueva página donde puedes ver todas las películas que pertenecen a esa colección.
 
 # Instalaciones necesarias
+
+## Rutas
+
+    npm install react-router-dom
+
+## Material UI
 
     npm install @mui/material @emotion/react @emotion/styled
     npm install @mui/icons-material
