@@ -165,10 +165,10 @@ export const CollectionPage = () => {
                     color="primary"
                     variant="contained"
                     disableElevation
+                    component={Link}
+                    to={`/movie/${movie.id}`}
                   >
-                    <Link to={`/movie/${movie.id}`} style={{color: 'unset', textDecoration: 'none', width: '100%'}}>
-                      Ver detalles
-                    </Link>
+                    Ver detalles
                   </Button>
                   </CardActions>
                   </Box>

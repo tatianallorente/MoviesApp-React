@@ -40,38 +40,38 @@ export const Menu = ({themeMode, setTheme}) => {
 							display: 'none',
 						},
 					})}
-					>
-						Movies App
-					</Typography>
-					<Link to="/" style={{display:'contents'}} onClick={() => setSearchFilters({})}>
-						<Box component="img" src={tmdb_logo} alt={tmdb_logo} ml={2} mr={2}
-							sx={(theme) => ({
-								maxHeight: '3rem',
-								[theme.breakpoints.down('md')]: {
-									maxHeight: '2rem',
-									marginLeft: 0,
-								},
-								[theme.breakpoints.down('sm')]: {
-									maxHeight: '1rem',
-								},
-							})}
-						/>
-					</Link>
-					<Button
-						variant="outlined"
-						color="secondary"
-						startIcon={switchState ? <DarkModeIcon color="secondary"/> : <LightModeIcon color="secondary"/>}
-						onClick={handleThemeChange}
-						sx={{
+				>
+					Movies App
+				</Typography>
+				<Link to="/" style={{display:'contents'}} onClick={() => setSearchFilters({})}>
+					<Box component="img" src={tmdb_logo} alt={tmdb_logo} ml={2} mr={2}
+						sx={(theme) => ({
+							maxHeight: '3rem',
+							[theme.breakpoints.down('md')]: {
+								maxHeight: '2rem',
+								marginLeft: 0,
+							},
+							[theme.breakpoints.down('sm')]: {
+								maxHeight: '1rem',
+							},
+						})}
+					/>
+				</Link>
+				<Button
+					variant="outlined"
+					color="secondary"
+					startIcon={switchState ? <DarkModeIcon color="secondary"/> : <LightModeIcon color="secondary"/>}
+					onClick={handleThemeChange}
+					sx={{
+						border: 'none',
+						textTransform: 'capitalize',
+						':hover': {
 							border: 'none',
-							textTransform: 'capitalize',
-							':hover': {
-								border: 'none',
-							}
-						}}
-					>
-						{switchState ? 'Dark mode' : 'Light mode'}
-					</Button>
+						}
+					}}
+				>
+					{switchState ? 'Dark mode' : 'Light mode'}
+				</Button>
 			</Toolbar>
 		</AppBar>
 	)

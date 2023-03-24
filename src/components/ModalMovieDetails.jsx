@@ -106,10 +106,8 @@ const ModalMovieDetails = ({ idMovie, handleClose, open }) => {
 										</>
 									}
 								</Box>
-								<Button variant="outlined" color="secondary" fullWidth size="small" sx={{mt: 2}} onClick={handleClose}>
-									<Link to={`/movie/${idMovie}`} style={{color: 'unset', textDecoration: 'none', width: '100%'}}>
-										Ver detalles
-									</Link>
+								<Button component={Link} to={`/movie/${idMovie}`} variant="outlined" color="secondary" fullWidth size="small" sx={{mt: 2}} onClick={handleClose}>
+									Ver detalles
 								</Button>
 							</Box>
 						</Box>

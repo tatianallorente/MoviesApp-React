@@ -25,7 +25,7 @@ const MovieGridItem = (movie) => {
 					//height="350"
 					//component="img"
 				/>
-					
+
 				<CardContent>
 					<Tooltip title={movieTitle} placement="top">
 						<Typography variant="body2" color="textPrimary" component="p"
@@ -39,7 +39,7 @@ const MovieGridItem = (movie) => {
 						</Typography>
 					</Tooltip>
 
-					<Box 
+					<Box
 						sx={{
 							position: 'absolute',
 							top: 0,
@@ -59,18 +59,18 @@ const MovieGridItem = (movie) => {
 						</Typography>
 					</Box>
 				</CardContent>
-				<CardActions>
 
-					<Button 
+				<CardActions>
+					<Button
 						fullWidth
-						size="small" 
-						color="primary" 
+						size="small"
+						color="primary"
 						variant="contained"
 						disableElevation
+						component={Link}
+						to={`/movie/${id}`}
 					>
-						<Link to={`/movie/${id}`} style={{color: 'unset', textDecoration: 'none', width: '100%'}}>
-							Ver detalles
-						</Link>
+						Ver detalles
 					</Button>
 				</CardActions>
 			</Card>
