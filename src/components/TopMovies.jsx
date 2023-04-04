@@ -20,9 +20,11 @@ const TopMovies = ({topUrl, topTitle}) => {
   // TODO: Mejorar scroll
   return (
     <Box mb={6} sx={{':is(:last-child)': {mb: 0}}}>
-      <Typography variant="h5" color="secondary" component="h3" gutterBottom pl={1} sx={{borderLeft: '5px solid'}}>
-        {topTitle}
-      </Typography>
+      {(loading || topMovies?.length > 0) &&
+        <Typography variant="h5" color="secondary" component="h3" gutterBottom pl={1} sx={{borderLeft: '5px solid'}}>
+          {topTitle}
+        </Typography>
+      }
 
       {loading &&
         <Skeleton variant="rectangular" height={200} animation="wave" />

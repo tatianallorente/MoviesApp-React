@@ -147,30 +147,30 @@ export const CollectionPage = () => {
                     },
                   }}
                 />
-                <Box>
-                <CardContent>
-                  <Typography variant="h6" color="secondary" component="h4" gutterBottom>
-                    {movie.title}
-                  </Typography>
-                  <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-                    {dateFormatted(movie.release_date)}
-                  </Typography>
-                  <Typography variant="body1" component="p">{movie.overview}</Typography>
-                </CardContent>
+                <Box display="flex" flexDirection="column" justifyContent="space-between" sx={{width: '100%'}}>
+                  <CardContent>
+                    <Typography variant="h6" color="secondary" component="h4" gutterBottom>
+                      {movie.title}
+                    </Typography>
+                    <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+                      {dateFormatted(movie.release_date)}
+                    </Typography>
+                    <Typography variant="body1" component="p">{movie.overview}</Typography>
+                  </CardContent>
 
-                <CardActions sx={{padding: 2}}>
-                  <Button
-                    fullWidth
-                    size="small"
-                    color="primary"
-                    variant="contained"
-                    disableElevation
-                    component={Link}
-                    to={`/movie/${movie.id}`}
-                  >
-                    Ver detalles
-                  </Button>
-                  </CardActions>
+                  <CardActions sx={{padding: 2}}>
+                    <Button
+                      fullWidth
+                      size="small"
+                      color="primary"
+                      variant="contained"
+                      disableElevation
+                      component={Link}
+                      to={`/movie/${movie.id}`}
+                    >
+                      Ver detalles
+                    </Button>
+                    </CardActions>
                   </Box>
               </Card>
             ))
