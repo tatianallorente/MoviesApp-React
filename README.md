@@ -28,6 +28,11 @@
     - Hacer click en un actor/actriz te lleva a su página de detalles.
     - Ver colección (si la hay) te lleva a una nueva página donde puedes ver todas las películas que pertenecen a esa colección.
 
+# Funcionalidades pendientes
+
+- Añadir breadcrumbs.
+- Usar una librería para reemplazar la barra de scroll del navegador.
+
 # Instalaciones necesarias
 
 ## Rutas
