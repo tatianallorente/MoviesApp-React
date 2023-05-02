@@ -91,7 +91,7 @@ export const CollectionPage = () => {
   return (
     <>
      	<Paper sx={styles.paper}>
-				<Container maxWidth="xl" sx={{padding: theme.spacing(3)}}>
+				<Container maxWidth="xl" sx={{padding: theme.spacing(6,3)}}>
 					{loadingCollection
 						? <Skeleton variant="rounded" height={450} animation="wave" />
 						:	Object.keys(collection)?.length > 0 && errorCollection === null

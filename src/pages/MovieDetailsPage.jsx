@@ -55,7 +55,7 @@ export const MovieDetailsPage = ( ) => {
 	return (
 		<>
 			<Paper sx={styles.paper}>
-				<Container maxWidth="xl" sx={{padding: theme.spacing(3)}}>
+				<Container maxWidth="xl" sx={{padding: theme.spacing(6,3)}}>
 					{loadingMovieDetails
 						? <Skeleton variant="rounded" height={700} animation="wave" />
 						:	Object.keys(movieDetails)?.length > 0 && errorMovieDetails === null

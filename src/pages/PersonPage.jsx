@@ -58,8 +58,8 @@ export const PersonPage = () => {
               })}
             >
               {loadingPerson
-                ? <Skeleton variant="rounded" width={300} height={450} animation="wave" sx={{marginBottom: 1}} />
-                : <Box component="img" src={profile_path ? `${URL_IMG_POSTER_MEDIUM}${profile_path}` : no_img} alt={name} sx={{borderRadius: '6px', maxWidth: 300, paddingRight: 4, paddingBottom: 1}} />
+                ? <Skeleton variant="rounded" width={300} height={450} animation="wave" sx={{marginBottom: 1, marginRight: 4}} />
+                : <Box component="img" src={profile_path ? `${URL_IMG_POSTER_MEDIUM}${profile_path}` : no_img} alt={name} sx={{borderRadius: '6px', maxWidth: 300, marginRight: 4, marginBottom: 1}} />
               }
               <Box>
                 <Typography variant="h6" component="h6" color="primary" sx={{fontSize: '1rem'}}>
