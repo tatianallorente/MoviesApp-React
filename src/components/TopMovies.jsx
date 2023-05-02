@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useState, Suspense, lazy } from "react";
 
 import { IconButton, ImageList, ImageListItem, ImageListItemBar, Typography, Box, Skeleton } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
 
 import { useFetch, useModal } from "../hooks";
-import ModalMovieDetails from "./ModalMovieDetails";
 import { URL_IMG_POSTER } from "../helpers/constants";
 
 
 const TopMovies = ({topUrl, topTitle}) => {
+  const ModalMovieDetails = lazy(() => import("./ModalMovieDetails"));
   const { open, toggleModal } = useModal();
 
   const { data, loading } = useFetch(topUrl);
@@ -82,13 +82,15 @@ const TopMovies = ({topUrl, topTitle}) => {
       }
 
 
-      {open &&
-        <ModalMovieDetails
-          idMovie={currentMovie}
-          handleClose={toggleModal}
-          open={open}
-        />
-      }
+      <Suspense>
+        {open &&
+          <ModalMovieDetails
+            idMovie={currentMovie}
+            handleClose={toggleModal}
+            open={open}
+          />
+        }
+      </Suspense>
     </Box>
   )
 
