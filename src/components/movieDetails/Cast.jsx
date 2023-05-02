@@ -60,6 +60,7 @@ export const Cast = ({ idMovie }) => {
                 alt={cast.name}
                 sx={{
                   maxWidth: '100%',
+                  borderRadius: '4px',
                   transition: 'transform .2s',
                   '&:hover': {
                     transform: 'scale(1.05)'

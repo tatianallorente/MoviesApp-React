@@ -84,7 +84,7 @@ export const TrailersAndMedia = ({ idMovie }) => {
             <TabPanel value={tabValue} index={0}>
               {trailers?.length > 0 && errorVideos === null
                 ? trailers?.map(trailer =>
-                    <iframe key={trailer.key} width="400" height="225" src={`${urlYoutube}${trailer.key}`} title={trailer.name} style={{border: 'none'}}></iframe>
+                    <iframe key={trailer.key} width="400" height="225" src={`${urlYoutube}${trailer.key}`} title={trailer.name} style={{border: 'none', borderRadius: '6px'}}></iframe>
                   )
                 : <NoResults />
               }
@@ -92,7 +92,7 @@ export const TrailersAndMedia = ({ idMovie }) => {
             <TabPanel value={tabValue} index={1}>
               {clips?.length > 0 && errorVideos === null
                 ?  clips?.map(clip =>
-                    <iframe key={clip.key} width="400" height="225" src={`${urlYoutube}${clip.key}`} title={clip.name} style={{border: 'none'}}></iframe>
+                    <iframe key={clip.key} width="400" height="225" src={`${urlYoutube}${clip.key}`} title={clip.name} style={{border: 'none', borderRadius: '6px'}}></iframe>
                   )
                 : <NoResults />
               }
